@@ -1,0 +1,6 @@
+{
+    "prefix": "!",
+    "token": "-your-bot-token-",
+    "ownerID": "-your-user-id-",
+    "loglevel": "info"
+}
