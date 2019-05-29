@@ -47,10 +47,12 @@ discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
     logger.debug(`Active guilds: ${discordClient.guilds.size}`);
     if (!discordClient.guilds.size) {
-        logger.debug(`clientid: ${discordClient.user.id}`);
-        logger.info('Looks like this is the first run of the bot.');
-        logger.info('Please use the following link to add this bot to your server:');
-        logger.info(`https://discordapp.com/oauth2/authorize?client_id=${discordClient.user.id}&scope=bot`);
+        discordClient.generateInvite()
+            .then(link => {
+                logger.info('Looks like this is the first run of the bot.');
+                logger.info('Please use the following link to add this bot to your server:');
+                logger.info(link);
+            });
     }
 });
 
