@@ -18,53 +18,53 @@ const logger = require('./logger.js');
 global.logger = logger;
 
 // Init Discord client
-const client = new Discord.Client();
+const discordClient = new Discord.Client();
 
 // Load config.json into client for ease of access
 const configFile = require('./config.json');
-client.config = configFile;
+discordClient.config = configFile;
 logger.debug('Config file loaded');
-logger.debug(`Prefix: ${client.config.prefix}`);
-logger.debug(`Token: ${client.config.token}`);
+logger.debug(`Prefix: ${discordClient.config.prefix}`);
+logger.debug(`Token: ${discordClient.config.token}`);
 
 logger.info('Loading command files');
 // Command collection
-client.commands = new Discord.Collection();
+discordClient.commands = new Discord.Collection();
 // Get command files
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 commandFiles.forEach(f => {
     const command = require(`./commands/${f}`);
-    client.commands.set(command.name, command);
+    discordClient.commands.set(command.name, command);
     logger.debug(`Loaded ${command.name}`);
 });
-logger.info(`Loaded ${client.commands.size} commands`)
+logger.info(`Loaded ${discordClient.commands.size} commands`)
 
 // Mapping for OpenTTD servers to channels
-client.channelMap = new Discord.Collection();
+discordClient.channelMap = new Discord.Collection();
 
 // Discord client is connected and ready
-client.once('ready', () => {
-    logger.info(`Connected to Discord as ${client.user.username}`);
-    logger.debug(`Active guilds: ${client.guilds.size}`);
-    if (!client.guilds.size) {
-        logger.debug(`clientid: ${client.user.id}`);
+discordClient.once('ready', () => {
+    logger.info(`Connected to Discord as ${discordClient.user.username}`);
+    logger.debug(`Active guilds: ${discordClient.guilds.size}`);
+    if (!discordClient.guilds.size) {
+        logger.debug(`clientid: ${discordClient.user.id}`);
         logger.info('Looks like this is the first run of the bot.');
         logger.info('Please use the following link to add this bot to your server:');
-        logger.info(`https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot`);
+        logger.info(`https://discordapp.com/oauth2/authorize?client_id=${discordClient.user.id}&scope=bot`);
     }
 });
 
 // Got a discord message
-client.on('message', message => {
+discordClient.on('message', message => {
     // Check if message has command prefix, and isn't another bot
-    if (!message.content.startsWith(client.config.prefix) || message.author.bot) return;
+    if (!message.content.startsWith(discordClient.config.prefix) || message.author.bot) return;
 
     // Split message into command and arguments
-    const args = message.content.slice(client.config.prefix.length).split(/ +/);
+    const args = message.content.slice(discordClient.config.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
     logger.debug(`Command Name: ${commandName}, args: ${args}`);
 
-    const command = client.commands.get(commandName) || client.commands.find(c => c.alias && c.alias.includes(commandName));
+    const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
 
     // Check command is in cached command list
     if (!command) {
@@ -76,7 +76,7 @@ client.on('message', message => {
     if (command.args && !args.length) {
         let reply = 'Missing arguments for command';
         if (command.usage) {
-            reply += `\nProper usage: ${client.config.prefix}${commandName} ${command.usage}`;
+            reply += `\nProper usage: ${discordClient.config.prefix}${commandName} ${command.usage}`;
         }
         message.reply(reply);
         return;
@@ -99,16 +99,16 @@ client.on('message', message => {
     }
 });
 
-client.on('error', error => {
+discordClient.on('error', error => {
     logger.error(`Got a discord error: ${error}`);
 });
 
-client.on('reconnecting', () => {
+discordClient.on('reconnecting', () => {
     logger.info(`Reconnecting to discord`);
 });
 
 /*
-client.on('disconnect', close => {
+discordClient.on('disconnect', close => {
     logger.debug(`code: ${close.code}\nreason: ${close.reason}\nclean: ${close.clean}`);
 });
 */
@@ -116,4 +116,4 @@ client.on('disconnect', close => {
 logger.info(`OpenTTDiscord bot v${botversion}`);
 logger.info('Connecting to Discord');
 // Log in to discord
-//client.login(client.config.token);
+//discordClient.login(client.config.token);
