@@ -1,10 +1,10 @@
 // Get our requirements
 const moment = require('moment');
 const levels = {
-    "debug": 0,
-    "info": 1,
-    "warn": 2,
-    "error": 3
+    'debug': 0,
+    'info': 1,
+    'warn': 2,
+    'error': 3
 };
 
 // Get logging level from config, or fallback to default
