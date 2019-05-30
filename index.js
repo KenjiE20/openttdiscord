@@ -46,6 +46,7 @@ discordClient.channelMap = new Discord.Collection();
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
     logger.debug(`Active guilds: ${discordClient.guilds.size}`);
+    // If we're not in any guilds prompt with invite link
     if (!discordClient.guilds.size) {
         discordClient.generateInvite()
             .then(link => {
