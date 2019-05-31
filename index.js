@@ -60,8 +60,13 @@ discordClient.once('ready', () => {
         logger.debug('Has channel mapping in config');
         // Load existing configs and copy into handler
         for (channelID in discordClient.config.channelMapping) {
-            let config = discordClient.config.channelMapping[channelID];
-            discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, channelID));
+            if (!discordClient.channels.has(channelID)) {
+                logger.warn(`Unable to find Discord channel: ${channelID}`);
+            }
+            else {
+                let config = discordClient.config.channelMapping[channelID];
+                discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID)));
+            }
         }
         // Attempt to connect to each OpenTTD config
         discordClient.channelMap.tap(channel => {
