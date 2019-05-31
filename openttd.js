@@ -32,6 +32,7 @@ class Client {
             // Request updates
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
+            this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
         });
         this.connection.on('clientinfo', client => {
             // Cache client info
@@ -50,6 +51,10 @@ class Client {
             this.clientInfo[client.id].company = client.company;
             global.logger.debug(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
+        this.connection.on('chat', chat => {
+            global.logger.debug(`chat;\n${JSON.stringify(chat,null,4)}`);
+            channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
+        })
     }
 
     // Function to connect to OpenTTD
