@@ -41,24 +41,6 @@ commandFiles.forEach(f => {
 });
 logger.info(`Loaded ${discordClient.commands.size} commands`)
 
-// Mapping for OpenTTD servers to channels
-discordClient.channelMap = new Discord.Collection();
-if (discordClient.config.channelMapping) {
-    logger.debug('Has channel mapping in config');
-    // Load existing configs and copy into handler
-    for (channelID in discordClient.config.channelMapping) {
-        let config = discordClient.config.channelMapping[channelID];
-        discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, channelID));
-    }
-    // Attempt to connect to each OpenTTD config
-    discordClient.channelMap.tap(channel => {
-        channel.connect();
-    });
-}
-else {
-    logger.debug('No channel mapping in config');
-}
-
 // Discord client is connected and ready
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
@@ -71,6 +53,23 @@ discordClient.once('ready', () => {
                 logger.info('Please use the following link to add this bot to your server:');
                 logger.info(link);
             });
+    }
+    // Mapping for OpenTTD servers to channels
+    discordClient.channelMap = new Discord.Collection();
+    if (discordClient.config.channelMapping) {
+        logger.debug('Has channel mapping in config');
+        // Load existing configs and copy into handler
+        for (channelID in discordClient.config.channelMapping) {
+            let config = discordClient.config.channelMapping[channelID];
+            discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, channelID));
+        }
+        // Attempt to connect to each OpenTTD config
+        discordClient.channelMap.tap(channel => {
+            channel.connect();
+        });
+    }
+    else {
+        logger.debug('No channel mapping in config');
     }
 });
 
