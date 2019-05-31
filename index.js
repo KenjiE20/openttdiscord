@@ -80,6 +80,14 @@ discordClient.once('ready', () => {
 
 // Got a discord message
 discordClient.on('message', message => {
+    // Handle chat if it isn't another bot
+    if (!message.author.bot) {
+        // Check channel has an OpenTTD connection
+        const openttd = discordClient.channelMap.get(message.channel.id);
+        if (openttd) {
+            openttd.sendChat(message);
+        }
+    }
     // Check if message has command prefix, and isn't another bot
     if (!message.content.startsWith(discordClient.config.prefix) || message.author.bot) return;
 

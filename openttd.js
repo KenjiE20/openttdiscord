@@ -61,6 +61,9 @@ class Client {
     connect() {
         this.connection.connect(this.address, this.port);
     };
+    sendChat(message) {
+        this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${message.author.username}> ${message.content}`);
+    }
 }
 
 exports.Client = Client;
