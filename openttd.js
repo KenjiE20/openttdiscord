@@ -30,6 +30,7 @@ class Client {
             // Cache info
             this.gameInfo = data;
             // Request updates
+            this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
         });
         this.connection.on('clientinfo', client => {
