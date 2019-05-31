@@ -39,6 +39,12 @@ class Client {
             global.logger.debug(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('clientupdate', client => {
+            if (this.clientInfo[client.id].name !== client.name) {
+                channel.send(`${this.clientInfo[client.id].name} has changed their name to ${client.name}`);
+            }
+            else if (this.clientInfo[client.id].company !== client.company) {
+                channel.send(`${this.clientInfo[client.id].name} has joined ${client.company}`);
+            }
             // Update cached client info
             this.clientInfo[client.id].name = client.name;
             this.clientInfo[client.id].company = client.company;
