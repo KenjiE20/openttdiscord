@@ -68,7 +68,10 @@ class Client {
                 global.logger.trace(`clienterror: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
             }
         });
-            global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+        this.connection.on('clientquit', client => {
+            channel.send(`${this.clientInfo[client.id].name} quit`);
+            delete this.clientInfo[client.id];
+            global.logger.trace(`clientquit: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('chat', chat => {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
