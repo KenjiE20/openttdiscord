@@ -59,10 +59,15 @@ class Client {
                 channel.send(`Client ${id} has joined`);
             }
         });
-        this.connection.on('clienterror', (id,error) => {
-            global.logger.trace(`OpenTTD client error: id; ${id}, error; ${error}`);
-            channel.send(`${this.clientInfo[id].name} got an error; ${error}`);
-            delete this.clientInfo[id];
+        this.connection.on('clienterror', client => {
+            global.logger.trace(`OpenTTD client error: id; ${client.id}, error; ${client.error}`);
+            // Only handle clienterror when it provides an error, as this event fires while clients join and leave
+            if (client.error) {
+                channel.send(`${this.clientInfo[client.id].name} got an error; ${client.error}`);
+                delete this.clientInfo[client.id];
+                global.logger.trace(`clienterror: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+            }
+        });
             global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('chat', chat => {
