@@ -59,6 +59,12 @@ class Client {
                 channel.send(`Client ${id} has joined`);
             }
         });
+        this.connection.on('clienterror', (id,error) => {
+            global.logger.trace(`OpenTTD client error: id; ${id}, error; ${error}`);
+            channel.send(`${this.clientInfo[id].name} got an error; ${error}`);
+            delete this.clientInfo[id];
+            global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+        });
         this.connection.on('chat', chat => {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
             channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
