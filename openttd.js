@@ -37,7 +37,7 @@ class Client {
         this.connection.on('clientinfo', client => {
             // Cache client info
             this.clientInfo[client.id] = {'ip': client.ip, 'name': client.name, 'lang': client.lang, 'joindate': client.joindate, 'company': client.company};
-            global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+            global.logger.trace(`clientinfo: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('clientupdate', client => {
             if (this.clientInfo[client.id].name !== client.name) {
@@ -49,7 +49,7 @@ class Client {
             // Update cached client info
             this.clientInfo[client.id].name = client.name;
             this.clientInfo[client.id].company = client.company;
-            global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+            global.logger.trace(`clientupdate: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('clientjoin', id => {
             if (this.clientInfo[id].name) {
