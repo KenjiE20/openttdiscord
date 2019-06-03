@@ -51,6 +51,14 @@ class Client {
             this.clientInfo[client.id].company = client.company;
             global.logger.trace(`clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
+        this.connection.on('clientjoin', id => {
+            if (this.clientInfo[id].name) {
+                channel.send(`${this.clientInfo[id].name} has joined`);
+            }
+            else {
+                channel.send(`Client ${id} has joined`);
+            }
+        });
         this.connection.on('chat', chat => {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
             channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
