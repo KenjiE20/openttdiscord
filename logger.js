@@ -1,10 +1,11 @@
 // Get our requirements
 const moment = require('moment');
 const levels = {
-    'debug': 0,
-    'info': 1,
-    'warn': 2,
-    'error': 3
+    'trace': 0,
+    'debug': 1,
+    'info': 2,
+    'warn': 3,
+    'error': 4
 };
 
 // Get logging level from config, or fallback to default
@@ -27,3 +28,4 @@ exports.error = (args) => this.log(args, 'error');
 exports.warn = (args) => this.log(args, 'warn');
 exports.info = (args) => this.log(args, 'info');
 exports.debug = (args) => this.log(args, 'debug');
+exports.trace = (args) => this.log(args, 'trace');

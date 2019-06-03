@@ -25,7 +25,8 @@ const discordClient = new Discord.Client();
 // Load config.json into client for ease of access
 const configFile = require('./config.json');
 discordClient.config = configFile;
-logger.debug('Config file loaded');
+logger.info('Config file loaded');
+logger.trace(`Config:\n${JSON.stringify(discordClient.config, null, 4)}`);
 logger.debug(`Prefix: ${discordClient.config.prefix}`);
 logger.debug(`Token: ${discordClient.config.token}`);
 
@@ -72,6 +73,7 @@ discordClient.once('ready', () => {
         discordClient.channelMap.tap(channel => {
             channel.connect();
         });
+        logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
     }
     else {
         logger.debug('No channel mapping in config');

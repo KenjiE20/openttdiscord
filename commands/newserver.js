@@ -20,5 +20,6 @@ module.exports = {
         mapconfig.password = map.password;
         global.logger.info(`New OpenTTD server set up for channel:${message.channel.id}`);
         message.reply('Config set up.');
+        global.logger.trace(`channelMapping:\n${JSON.stringify(message.client.config.channelMapping, null, 4)}`);
     }
 };
