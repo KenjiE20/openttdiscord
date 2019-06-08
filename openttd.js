@@ -33,6 +33,7 @@ class Client {
             // Request updates
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
+            this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
         });
 
@@ -77,6 +78,43 @@ class Client {
             channel.send(`${this.clientInfo[client.id].name} quit`);
             delete this.clientInfo[client.id];
             global.logger.trace(`clientquit: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
+        });
+
+        // Company Events
+        // companyinfo and companyupdate both hold shared and unique elements
+        // so in order to cache, these have to be mapped individually
+        this.connection.on('companyinfo', company => {
+            // Create properties if this is a new company
+            if (!this.companyInfo[company.id]) {
+                this.companyInfo[company.id] = {'name': '', manager: '', colour: null, protected: false, startyear: 0, isai: false, bankruptcy: false, shares: {'1': null, '2': null,'3': null,'4': null}};
+            }
+            this.companyInfo[company.id].name = company.name;
+            this.companyInfo[company.id].manager = company.manager;
+            this.companyInfo[company.id].colour = company.colour;
+            this.companyInfo[company.id].protected = company.protected;
+            this.companyInfo[company.id].startyear = company.startyear;
+            this.companyInfo[company.id].isai = company.isai;
+            global.logger.trace(`companyinfo: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+        });
+        this.connection.on('companyupdate', company => {
+            this.companyInfo[company.id].name = company.name;
+            this.companyInfo[company.id].manager = company.manager;
+            this.companyInfo[company.id].colour = company.colour;
+            this.companyInfo[company.id].protected = company.protected;
+            this.companyInfo[company.id].bankruptcy = company.bankruptcy;
+            this.companyInfo[company.id].shares = company.shares;
+            global.logger.trace(`companyupdate: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+        });
+        this.connection.on('companyremove', company => {
+            let remove = `Company ${company.id+1} (${this.companyInfo[company.id].name}) was removed`;
+            switch(company.reason) {
+                case openttdAdmin.enums.CompanyRemoveReasons.MANUAL: remove += ' manually'; break;
+                case openttdAdmin.enums.CompanyRemoveReasons.AUTOCLEAN: remove += ' by autoclean'; break;
+                case openttdAdmin.enums.CompanyRemoveReasons.BANKRUPT: remove += ' after going bankrupt'; break;
+            }
+            channel.send(remove);
+            delete this.companyInfo[company.id];
+            global.logger.trace(`companyremove: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
         });
 
         // Handle chat
