@@ -121,7 +121,10 @@ class Client {
         // Handle chat
         this.connection.on('chat', chat => {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
+            // Only pass broadcast chats
+            if (chat.action === openttdAdmin.enums.Actions.CHAT && chat.desttype === openttdAdmin.enums.DestTypes.BROADCAST) {
             channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
+            }
         })
     }
 
