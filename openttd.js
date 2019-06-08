@@ -29,6 +29,7 @@ class Client {
             global.logger.info(`Connected to OpenTTD server: ${this.name}`);
             // Cache info
             this.gameInfo = data;
+            global.logger.trace(`gameinfo;\n${JSON.stringify(this.gameInfo, null, 4)}`);
             // Request updates
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);

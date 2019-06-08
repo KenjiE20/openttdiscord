@@ -28,7 +28,6 @@ discordClient.config = configFile;
 logger.info('Config file loaded');
 logger.trace(`Config:\n${JSON.stringify(discordClient.config, null, 4)}`);
 logger.debug(`Prefix: ${discordClient.config.prefix}`);
-logger.debug(`Token: ${discordClient.config.token}`);
 
 logger.info('Loading command files');
 // Command collection
@@ -59,6 +58,7 @@ discordClient.once('ready', () => {
     discordClient.channelMap = new Discord.Collection();
     if (discordClient.config.channelMapping) {
         logger.debug('Has channel mapping in config');
+        logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
         // Load existing configs and copy into handler
         for (channelID in discordClient.config.channelMapping) {
             if (!discordClient.channels.has(channelID)) {
@@ -73,7 +73,6 @@ discordClient.once('ready', () => {
         discordClient.channelMap.tap(channel => {
             channel.connect();
         });
-        logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
     }
     else {
         logger.debug('No channel mapping in config');
