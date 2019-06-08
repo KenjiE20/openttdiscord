@@ -133,6 +133,10 @@ class Client {
                 const companyname = this.companyInfo[companyid].name;
                 channel.send(`${clientname} has joined Company #${companyid+1} (${companyname})`);
             }
+            // Player joins spectators
+            if (chat.action === openttdAdmin.enums.Actions.COMPANY_SPECTATOR) {
+                channel.send(`${this.clientInfo[chat.id].name} is now spectating`);
+            }
         })
     }
 
