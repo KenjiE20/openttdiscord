@@ -83,7 +83,7 @@ discordClient.once('ready', () => {
 discordClient.on('message', message => {
     // Handle chat if it isn't another bot
     if (!message.author.bot) {
-        // Check channel has an OpenTTD connection
+        // Check channel has an OpenTTD connection and send chat if it does
         const openttd = discordClient.channelMap.get(message.channel.id);
         if (openttd) {
             openttd.sendChat(message);
@@ -97,9 +97,8 @@ discordClient.on('message', message => {
     const commandName = args.shift().toLowerCase();
     logger.debug(`Command Name: ${commandName}, args: ${args}`);
 
-    const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
-
     // Check command is in cached command list
+    const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
     if (!command) {
         logger.debug(`Invalid command: ${commandName}`);
         return;
@@ -132,6 +131,7 @@ discordClient.on('message', message => {
     }
 });
 
+// Other Discord events
 discordClient.on('error', error => {
     logger.error(`Got a discord error: ${error}`);
 });

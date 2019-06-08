@@ -4,6 +4,7 @@ module.exports = {
     description: 'Saves the current config',
     execute(message) {
         global.logger.debug(`Message author id: ${message.author.id} | OwnerID: ${message.client.config.ownerID}`);
+        // Authorisation check
         if (message.author.id === message.client.config.ownerID) {
             global.logger.info('Saving config');
             let data = JSON.stringify(message.client.config, null, 4);

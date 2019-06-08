@@ -35,12 +35,15 @@ class Client {
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
         });
+
+        // Client Events
         this.connection.on('clientinfo', client => {
             // Cache client info
             this.clientInfo[client.id] = {'ip': client.ip, 'name': client.name, 'lang': client.lang, 'joindate': client.joindate, 'company': client.company};
             global.logger.trace(`clientinfo: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('clientupdate', client => {
+            // Send changed info to Discord
             if (this.clientInfo[client.id].name !== client.name) {
                 channel.send(`${this.clientInfo[client.id].name} has changed their name to ${client.name}`);
             }
@@ -53,6 +56,7 @@ class Client {
             global.logger.trace(`clientupdate: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
         this.connection.on('clientjoin', id => {
+            // Name check in case events happened out of order
             if (this.clientInfo[id].name) {
                 channel.send(`${this.clientInfo[id].name} has joined`);
             }
@@ -74,6 +78,8 @@ class Client {
             delete this.clientInfo[client.id];
             global.logger.trace(`clientquit: clientinfo is now;\n${JSON.stringify(this.clientInfo,null,4)}`);
         });
+
+        // Handle chat
         this.connection.on('chat', chat => {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
             channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
@@ -84,9 +90,11 @@ class Client {
     connect() {
         this.connection.connect(this.address, this.port);
     };
+    // Chat function
     sendChat(message) {
         this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${message.author.username}> ${message.content}`);
     }
+    // Function to clean up
     disconnect() {
         this.connection.close();
     }
