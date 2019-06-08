@@ -19,6 +19,6 @@
   "dependencies": {
     "discord.js": "^11.5.0",
     "moment": "^2.24.0",
-    "node-openttd-admin": "^0.2.2"
+    "node-openttd-admin": "^0.2.3"
   }
 }
