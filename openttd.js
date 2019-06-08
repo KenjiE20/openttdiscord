@@ -49,9 +49,6 @@ class Client {
             if (this.clientInfo[client.id].name !== client.name) {
                 channel.send(`${this.clientInfo[client.id].name} has changed their name to ${client.name}`);
             }
-            else if (this.clientInfo[client.id].company !== client.company) {
-                channel.send(`${this.clientInfo[client.id].name} has joined ${client.company}`);
-            }
             // Update cached client info
             this.clientInfo[client.id].name = client.name;
             this.clientInfo[client.id].company = client.company;
@@ -128,6 +125,13 @@ class Client {
             // New company event is better handled here than via admin port event
             if (chat.action === openttdAdmin.enums.Actions.COMPANY_NEW) {
                 channel.send(`${this.clientInfo[chat.id].name} has started a new company #${this.clientInfo[chat.id].company+1}`);
+            }
+            // Player joins a company
+            if (chat.action === openttdAdmin.enums.Actions.COMPANY_JOIN) {
+                const clientname = this.clientInfo[chat.id].name;
+                const companyid = this.clientInfo[chat.id].company;
+                const companyname = this.companyInfo[companyid].name;
+                channel.send(`${clientname} has joined Company #${companyid+1} (${companyname})`);
             }
         })
     }
