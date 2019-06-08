@@ -57,7 +57,12 @@ class Client {
         this.connection.on('clientjoin', id => {
             // Name check in case events happened out of order
             if (this.clientInfo[id].name) {
-                channel.send(`${this.clientInfo[id].name} has joined`);
+                let join = `${this.clientInfo[id].name} has connected`;
+                if (this.clientInfo[id].company === 255) {join += ' (Spectator)'}
+                else {
+                    join += ` in Company #${this.clientInfo[id].company+1} (${this.companyInfo[this.clientInfo[id].company].name})`;
+                }
+                channel.send(join);
             }
             else {
                 channel.send(`Client ${id} has joined`);
