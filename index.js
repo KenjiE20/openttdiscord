@@ -149,4 +149,7 @@ discordClient.on('disconnect', close => {
 logger.info(`OpenTTDiscord bot v${botversion}`);
 logger.info('Connecting to Discord');
 // Log in to discord
-discordClient.login(discordClient.config.token);
+discordClient.login(discordClient.config.token)
+    .catch(error => {
+        logger.error(`An error occurred connecting to Discord; ${error}`)
+    });
