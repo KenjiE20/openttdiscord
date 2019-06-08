@@ -107,7 +107,7 @@ class Client {
             global.logger.trace(`companyupdate: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
         });
         this.connection.on('companyremove', company => {
-            let remove = `Company ${company.id+1} (${this.companyInfo[company.id].name}) was removed`;
+            let remove = `Company #${company.id+1} (${this.companyInfo[company.id].name}) was removed`;
             switch(company.reason) {
                 case openttdAdmin.enums.CompanyRemoveReasons.MANUAL: remove += ' manually'; break;
                 case openttdAdmin.enums.CompanyRemoveReasons.AUTOCLEAN: remove += ' by autoclean'; break;
@@ -123,7 +123,11 @@ class Client {
             global.logger.trace(`chat;\n${JSON.stringify(chat,null,4)}`);
             // Only pass broadcast chats
             if (chat.action === openttdAdmin.enums.Actions.CHAT && chat.desttype === openttdAdmin.enums.DestTypes.BROADCAST) {
-            channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
+                channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
+            }
+            // New company event is better handled here than via admin port event
+            if (chat.action === openttdAdmin.enums.Actions.COMPANY_NEW) {
+                channel.send(`${this.clientInfo[chat.id].name} has started a new company #${this.clientInfo[chat.id].company+1}`);
             }
         })
     }
