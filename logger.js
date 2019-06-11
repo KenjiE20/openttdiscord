@@ -18,7 +18,7 @@ exports.log = (content, type = 'info') => {
     // Output based on log level
     const msgLevel = levels[type.toLowerCase()];
     if (msgLevel >= levels[loggingLevel.toLowerCase()]) {
-        console.log(`${time} ${type.toUpperCase().padStart(5,' ')} ${content}`);
+        console.log(`${time} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
     }
     return;
 };

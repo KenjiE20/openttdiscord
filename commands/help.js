@@ -9,9 +9,8 @@ module.exports = {
         if (!args.length) {
             global.logger.debug('Give command list');
             reply = `Command list: ${message.client.commands.map(c => c.name).join(', ')}`;
-        }
-        // Give command help
-        else {
+        } else {
+            // Give command help
             const command = message.client.commands.get(args[0].toLowerCase());
             reply = `${message.client.config.prefix}${command.name}`;
             if(command.usage) reply += ` ${command.usage}`;
@@ -20,4 +19,4 @@ module.exports = {
         }
         message.reply(reply);
     }
-}
+};

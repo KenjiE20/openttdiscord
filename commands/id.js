@@ -5,8 +5,7 @@ module.exports = {
     execute(message, args) {
         if (args[0] === 'channel') {
             message.reply(`Channel id for ${message.channel.name}: ${message.channel.id}`);
-        }
-        else {
+        } else {
             message.reply(`Your id is: ${message.author.id}`);
         }
     }

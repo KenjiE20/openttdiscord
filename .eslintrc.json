@@ -1,0 +1,18 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "node": true,
+        "es6": true
+        },        
+    "rules": {
+        "indent": ["warn", 4, {
+            "SwitchCase": 1
+        }],
+        "brace-style": "warn",
+        "prefer-const": "warn",
+        "comma-spacing": "error",
+        "semi": "error",
+        
+        "no-console": "off"
+    }
+}

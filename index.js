@@ -9,8 +9,7 @@ const botversion = require('./package.json').version;
 // Check for config file and stop if not found
 try {
     fs.accessSync('./config.json', fs.constants.R_OK);
-}
-catch (error) {
+} catch (error) {
     console.error(`Problem reading config.json: ${error}`);
     return;
 }
@@ -39,7 +38,7 @@ commandFiles.forEach(f => {
     discordClient.commands.set(command.name, command);
     logger.debug(`Loaded ${command.name}`);
 });
-logger.info(`Loaded ${discordClient.commands.size} commands`)
+logger.info(`Loaded ${discordClient.commands.size} commands`);
 
 // Discord client is connected and ready
 discordClient.once('ready', () => {
@@ -60,12 +59,11 @@ discordClient.once('ready', () => {
         logger.debug('Has channel mapping in config');
         logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
         // Load existing configs and copy into handler
-        for (channelID in discordClient.config.channelMapping) {
+        for (var channelID in discordClient.config.channelMapping) {
             if (!discordClient.channels.has(channelID)) {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
-            }
-            else {
-                let config = discordClient.config.channelMapping[channelID];
+            } else {
+                const config = discordClient.config.channelMapping[channelID];
                 discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID)));
             }
         }
@@ -73,8 +71,7 @@ discordClient.once('ready', () => {
         discordClient.channelMap.tap(channel => {
             channel.connect();
         });
-    }
-    else {
+    } else {
         logger.debug('No channel mapping in config');
     }
 });
@@ -124,8 +121,7 @@ discordClient.on('message', message => {
     logger.debug(`Attemping command: ${command.name} (${commandName})`);
     try {
         command.execute(message, args);
-    }
-    catch (error) {
+    } catch (error) {
         logger.error(`Error when executing ${commandName}: ${error}`);
         message.reply('Something went wrong');
     }
@@ -151,5 +147,5 @@ logger.info('Connecting to Discord');
 // Log in to discord
 discordClient.login(discordClient.config.token)
     .catch(error => {
-        logger.error(`An error occurred connecting to Discord; ${error}`)
+        logger.error(`An error occurred connecting to Discord; ${error}`);
     });
