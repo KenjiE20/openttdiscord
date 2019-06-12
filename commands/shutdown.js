@@ -9,7 +9,7 @@ module.exports = {
             global.logger.info('Disconnecting from OpenTTD servers');
             message.client.channelMap.tap(channel => {
                 if (channel.isConnected) {
-                    global.logger.debug(`Disconnecting from ${channel.name} OpenTTD Server`);
+                    global.logger.debug(`Disconnecting from OpenTTD Server: ${channel.name}`);
                     channel.disconnect();
                 }
             });

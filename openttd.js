@@ -32,7 +32,7 @@ class Client {
         });
         this.connection.on('welcome', data => {
             this.isConnected = true;
-            global.logger.info(`Connected to OpenTTD server: ${this.name}`);
+            global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
             // Cache info
             this.gameInfo = data;
             global.logger.trace(`gameinfo;\n${JSON.stringify(this.gameInfo, null, 4)}`);
