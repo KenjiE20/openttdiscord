@@ -6,7 +6,7 @@ module.exports = {
         global.logger.debug(`Message author id: ${message.author.id} | OwnerID: ${message.client.config.ownerID}`);
         if (message.author.id === message.client.config.ownerID) {
             // Attempt to disconnect each OpenTTD config
-            global.logger.info(`Disconnecting from OpenTTD servers`);
+            global.logger.info('Disconnecting from OpenTTD servers');
             message.client.channelMap.tap(channel => {
                 global.logger.debug(`Disconnecting from ${channel.name} OpenTTD Server`);
                 channel.disconnect();

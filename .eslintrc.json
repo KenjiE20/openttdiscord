@@ -12,7 +12,7 @@
         "prefer-const": "warn",
         "comma-spacing": "error",
         "semi": "error",
-        
+        "quotes": ["error", "single"],
         "no-console": "off"
     }
 }

@@ -133,7 +133,7 @@ discordClient.on('error', error => {
 });
 
 discordClient.on('reconnecting', () => {
-    logger.info(`Reconnecting to discord`);
+    logger.info('Reconnecting to discord');
 });
 
 /*
