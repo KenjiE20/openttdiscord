@@ -82,7 +82,7 @@ discordClient.on('message', message => {
     if (!message.author.bot) {
         // Check channel has an OpenTTD connection and send chat if it does
         const openttd = discordClient.channelMap.get(message.channel.id);
-        if (openttd) {
+        if (openttd && openttd.isConnected) {
             openttd.sendChat(message);
         }
     }

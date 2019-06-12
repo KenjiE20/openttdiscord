@@ -13,6 +13,9 @@ class Client {
         this.channel = channel || '';
         this.connection = new openttdAdmin.connection();
 
+        // Helper properties
+        this.isConnected = false;
+
         // Info cache
         this.gameInfo;
         this.clientInfo = {};
@@ -24,8 +27,10 @@ class Client {
         });
         this.connection.on('error', error => {
             global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
+            this.isConnected = false;
         });
         this.connection.on('welcome', data => {
+            this.isConnected = true;
             global.logger.info(`Connected to OpenTTD server: ${this.name}`);
             // Cache info
             this.gameInfo = data;
@@ -155,6 +160,7 @@ class Client {
     }
     // Function to clean up
     disconnect() {
+        this.isConnected = false;
         this.connection.close();
     }
 }

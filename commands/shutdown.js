@@ -8,8 +8,10 @@ module.exports = {
             // Attempt to disconnect each OpenTTD config
             global.logger.info('Disconnecting from OpenTTD servers');
             message.client.channelMap.tap(channel => {
-                global.logger.debug(`Disconnecting from ${channel.name} OpenTTD Server`);
-                channel.disconnect();
+                if (channel.isConnected) {
+                    global.logger.debug(`Disconnecting from ${channel.name} OpenTTD Server`);
+                    channel.disconnect();
+                }
             });
             global.logger.info('Shutting down');
             message.client.destroy();
