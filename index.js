@@ -64,12 +64,14 @@ discordClient.once('ready', () => {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
             } else {
                 const config = discordClient.config.channelMapping[channelID];
-                discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID)));
+                discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID), config.autoconnect));
             }
         }
         // Attempt to connect to each OpenTTD config
         discordClient.channelMap.tap(channel => {
-            channel.connect();
+            if (channel.autoconnect) {
+                channel.connect();
+            }
         });
     } else {
         logger.debug('No channel mapping in config');
