@@ -68,22 +68,22 @@ class Client {
                 } else {
                     join += ` in Company #${this.clientInfo[id].company+1} (${this.companyInfo[this.clientInfo[id].company].name})`;
                 }
-                channel.send(join);
+                channel.send(`\`${join}\``);
             } else {
-                channel.send(`Client ${id} has joined`);
+                channel.send(`\`Client ${id} has joined\``);
             }
         });
         this.connection.on('clienterror', client => {
             global.logger.trace(`OpenTTD client error: id; ${client.id}, error; ${client.error}`);
             // Only handle clienterror when it provides an error, as this event fires while clients join and leave
             if (client.error) {
-                channel.send(`${this.clientInfo[client.id].name} got an error; ${client.error}`);
+                channel.send(`\`${this.clientInfo[client.id].name} got an error; ${client.error}\``);
                 delete this.clientInfo[client.id];
                 global.logger.trace(`clienterror: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
             }
         });
         this.connection.on('clientquit', client => {
-            channel.send(`${this.clientInfo[client.id].name} quit`);
+            channel.send(`\`${this.clientInfo[client.id].name} quit\``);
             delete this.clientInfo[client.id];
             global.logger.trace(`clientquit: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
         });
@@ -134,18 +134,18 @@ class Client {
             }
             // New company event is better handled here than via admin port event
             if (chat.action === openttdAdmin.enums.Actions.COMPANY_NEW) {
-                channel.send(`${this.clientInfo[chat.id].name} has started a new company #${this.clientInfo[chat.id].company+1}`);
+                channel.send(`\`${this.clientInfo[chat.id].name} has started a new Company #${this.clientInfo[chat.id].company+1}\``);
             }
             // Player joins a company
             if (chat.action === openttdAdmin.enums.Actions.COMPANY_JOIN) {
                 const clientname = this.clientInfo[chat.id].name;
                 const companyid = this.clientInfo[chat.id].company;
                 const companyname = this.companyInfo[companyid].name;
-                channel.send(`${clientname} has joined Company #${companyid+1} (${companyname})`);
+                channel.send(`\`${clientname} has joined Company #${companyid+1} (${companyname})\``);
             }
             // Player joins spectators
             if (chat.action === openttdAdmin.enums.Actions.COMPANY_SPECTATOR) {
-                channel.send(`${this.clientInfo[chat.id].name} is now spectating`);
+                channel.send(`\`${this.clientInfo[chat.id].name} is now spectating\``);
             }
         });
     }
