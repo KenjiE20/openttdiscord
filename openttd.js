@@ -153,7 +153,7 @@ class Client {
 
     // Function to connect to OpenTTD
     connect() {
-        this.connection.connect(this.address, this.port);
+        return this.connection.connect(this.address, this.port);
     }
     // Chat function
     sendChat(message) {
