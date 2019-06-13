@@ -28,11 +28,17 @@ class Client {
         });
         this.connection.on('error', error => {
             global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
+            if (error === 'connectionerror') {
+                channel.send(`Error connecting to OpenTTD Server: ${this.name}`);
+            } else if (error === 'connectionclose') {
+                channel.send(`Disconnected from OpenTTD Server: ${this.name}`);
+            }
             this.isConnected = false;
         });
         this.connection.on('welcome', data => {
             this.isConnected = true;
             global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
+            channel.send(`Connected to OpenTTD Server: ${this.name}`);
             // Cache info
             this.gameInfo = data;
             global.logger.trace(`gameinfo;\n${JSON.stringify(this.gameInfo, null, 4)}`);
