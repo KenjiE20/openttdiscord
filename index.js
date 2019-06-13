@@ -120,6 +120,12 @@ discordClient.on('message', message => {
         return;
     }
 
+    // Check for OpenTTD requirement
+    if (command.openttd && !discordClient.channelMap.get(message.channel.id)) {
+        message.reply('This command requires an OpenTTD server set up for this channel');
+        return;
+    }
+
     // Attempt to execute command
     logger.debug(`Attemping command: ${command.name} (${commandName})`);
     try {
