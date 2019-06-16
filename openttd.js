@@ -29,16 +29,16 @@ class Client {
         this.connection.on('error', error => {
             global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
             if (error === 'connectionerror') {
-                channel.send(`Error connecting to OpenTTD Server: ${this.name}`);
+                channel.send(`\`Error connecting to OpenTTD Server: ${this.name}\``);
             } else if (error === 'connectionclose') {
-                channel.send(`Disconnected from OpenTTD Server: ${this.name}`);
+                channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``);
             }
             this.isConnected = false;
         });
         this.connection.on('welcome', data => {
             this.isConnected = true;
             global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
-            channel.send(`Connected to OpenTTD Server: ${this.name}`);
+            channel.send(`\`Connected to OpenTTD Server: ${this.name}\``);
             // Cache info
             this.gameInfo = data;
             global.logger.trace(`gameinfo;\n${JSON.stringify(this.gameInfo, null, 4)}`);
@@ -59,7 +59,7 @@ class Client {
         this.connection.on('clientupdate', client => {
             // Send changed info to Discord
             if (this.clientInfo[client.id].name !== client.name) {
-                channel.send(`${this.clientInfo[client.id].name} has changed their name to ${client.name}`);
+                channel.send(`\`${this.clientInfo[client.id].name} has changed their name to ${client.name}\``);
             }
             // Update cached client info
             this.clientInfo[client.id].name = client.name;
@@ -127,7 +127,7 @@ class Client {
                 case openttdAdmin.enums.CompanyRemoveReasons.AUTOCLEAN: remove += ' by autoclean'; break;
                 case openttdAdmin.enums.CompanyRemoveReasons.BANKRUPT: remove += ' after going bankrupt'; break;
             }
-            channel.send(remove);
+            channel.send(`\`${remove}\``);
             delete this.companyInfo[company.id];
             global.logger.trace(`companyremove: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
         });
