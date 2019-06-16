@@ -13,8 +13,15 @@ module.exports = {
                     channel.disconnect();
                 }
             });
-            global.logger.info('Shutting down');
-            message.client.destroy();
+            
+            // Wait until connection counter clears to disconect discord and end
+            const shutdown = setInterval(() => {
+                if (!message.client.openttdConnected.count) {
+                    global.logger.info('Shutting down');
+                    message.client.destroy();
+                    clearInterval(shutdown);
+                }
+            }, 500);
         }
     }
 };
