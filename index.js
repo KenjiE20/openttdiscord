@@ -53,6 +53,23 @@ discordClient.once('ready', () => {
                 logger.info(link);
             });
     }
+
+    // Object to help keep track of the number of OpenTTD connections active
+    discordClient.openttdConnected = {
+        counter: 0,
+        increment() {
+            this.counter++;
+            logger.trace(`openttdConnected count: ${this.counter}`);
+        },
+        decrement() {
+            this.counter--;
+            logger.trace(`openttdConnected count: ${this.counter}`);
+        },
+        get count() {
+            return this.counter;
+        }
+    };
+
     // Mapping for OpenTTD servers to channels
     discordClient.channelMap = new Discord.Collection();
     if (discordClient.config.channelMapping) {

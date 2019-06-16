@@ -33,10 +33,14 @@ class Client {
             } else if (error === 'connectionclose') {
                 channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``);
             }
-            this.isConnected = false;
+            if (this.isConnected) {
+                this.isConnected = false;
+                channel.client.openttdConnected.decrement();
+            }
         });
         this.connection.on('welcome', data => {
             this.isConnected = true;
+            channel.client.openttdConnected.increment();
             global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
             channel.send(`\`Connected to OpenTTD Server: ${this.name}\``);
             // Cache info
@@ -167,7 +171,6 @@ class Client {
     }
     // Function to clean up
     disconnect() {
-        this.isConnected = false;
         this.connection.close();
     }
 }
