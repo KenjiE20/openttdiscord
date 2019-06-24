@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 // Get the openttd handler
 const OpenTTD = require('./openttd.js');
 // Grab version from npm package.json
-const botversion = require('./package.json').version;
+const BOTVERSION = require('./package.json').version;
 
 // Check for config file and stop if not found
 try {
@@ -168,7 +168,7 @@ discordClient.on('disconnect', close => {
 });
 */
 
-logger.info(`OpenTTDiscord bot v${botversion}`);
+logger.info(`OpenTTDiscord bot v${BOTVERSION}`);
 logger.info('Connecting to Discord');
 // Log in to discord
 discordClient.login(discordClient.config.token)

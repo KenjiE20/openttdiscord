@@ -9,16 +9,16 @@ const levels = {
 };
 
 // Get logging level from config, or fallback to default
-const loggingLevel = require('./config.json').loglevel || 'info';
+const LOGGINGLEVEL = require('./config.json').loglevel || 'info';
 
 // Master logging function
 exports.log = (content, type = 'info') => {
     // Get current date & time
-    const time = `[${moment().format('YYYY-MM-DD HH:mm:ss')}]`;
+    const TIME = `[${moment().format('YYYY-MM-DD HH:mm:ss')}]`;
     // Output based on log level
-    const msgLevel = levels[type.toLowerCase()];
-    if (msgLevel >= levels[loggingLevel.toLowerCase()]) {
-        console.log(`${time} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
+    const MSGLEVEL = levels[type.toLowerCase()];
+    if (MSGLEVEL >= levels[LOGGINGLEVEL.toLowerCase()]) {
+        console.log(`${TIME} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
     }
     return;
 };

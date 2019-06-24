@@ -15,12 +15,12 @@ module.exports = {
         if (message.client.config.channelMapping === undefined) {
             message.client.config.channelMapping = {};
         }
-        const mapconfig = message.client.config.channelMapping[message.channel.id] = {};
-        mapconfig.name = map.name;
-        mapconfig.address = map.address;
-        mapconfig.port = map.port;
-        mapconfig.password = map.password;
-        mapconfig.autoconnect = map.autoconnect;
+        const mapConfig = message.client.config.channelMapping[message.channel.id] = {};
+        mapConfig.name = map.name;
+        mapConfig.address = map.address;
+        mapConfig.port = map.port;
+        mapConfig.password = map.password;
+        mapConfig.autoconnect = map.autoconnect;
         global.logger.info(`New OpenTTD server set up for channel: ${message.channel.id}`);
         message.reply('Config set up, remember to save the config file');
         global.logger.trace(`channelMapping:\n${JSON.stringify(message.client.config.channelMapping, null, 4)}`);
