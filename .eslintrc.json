@@ -13,6 +13,10 @@
         "comma-spacing": "error",
         "semi": "error",
         "quotes": ["error", "single"],
-        "no-console": "off"
+        "no-console": "off",
+        "eqeqeq": "warn",
+        "camelcase": "error",
+        "no-var": "error",
+        "prefer-template": "error"
     }
 }

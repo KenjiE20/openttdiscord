@@ -1,5 +1,5 @@
 // Bring in admin port library
-var openttdAdmin = require('node-openttd-admin');
+const openttdAdmin = require('node-openttd-admin');
 
 // Handler class
 class Client {

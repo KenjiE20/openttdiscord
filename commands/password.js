@@ -15,7 +15,7 @@ module.exports = {
             // rcon callback
             const parser = function(rcon) {
                 global.logger.debug(`got rcon: ${JSON.stringify(rcon, null, 4)}`);
-                var pw = /Current value for 'server_password' is: '(.*)'/.exec(rcon.output);
+                const pw = /Current value for 'server_password' is: '(.*)'/.exec(rcon.output);
                 global.logger.trace(JSON.stringify(pw, null, 4));
                 if (pw[1]) {
                     message.channel.send(`\`Current password: ${pw[1]}\``);

@@ -76,7 +76,7 @@ discordClient.once('ready', () => {
         logger.debug('Has channel mapping in config');
         logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
         // Load existing configs and copy into handler
-        for (var channelID in discordClient.config.channelMapping) {
+        for (const channelID in discordClient.config.channelMapping) {
             if (!discordClient.channels.has(channelID)) {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
             } else {
