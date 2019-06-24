@@ -21,6 +21,7 @@ class Client {
         this.gameInfo;
         this.clientInfo = {};
         this.companyInfo = {};
+        this.gameDate = 0;
 
         // Handle admin port events
         this.connection.on('connect', () => {
@@ -49,9 +50,11 @@ class Client {
             // Request updates
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, 0xFFFFFFFF);
+            this.connection.send_poll(openttdAdmin.enums.UpdateTypes.DATE);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
+            this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.DATE, openttdAdmin.enums.UpdateFrequencies.DAILY);
         });
 
         // Client Events
@@ -134,6 +137,12 @@ class Client {
             channel.send(`\`${remove}\``);
             delete this.companyInfo[company.id];
             global.logger.trace(`companyremove: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+        });
+
+        // Date handler
+        this.connection.on('date', date => {
+            this.gameDate = date;
+            global.logger.trace(`date: gameDate is now;\n${JSON.stringify(this.gameDate, null, 4)}`);
         });
 
         // Handle chat
