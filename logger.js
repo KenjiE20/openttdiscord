@@ -18,7 +18,11 @@ exports.log = (content, type = 'info') => {
     // Output based on log level
     const MSGLEVEL = levels[type.toLowerCase()];
     if (MSGLEVEL >= levels[LOGGINGLEVEL.toLowerCase()]) {
-        console.log(`${TIME} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
+        if (MSGLEVEL >= levels['warn']) {
+            console.error(`${TIME} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
+        } else {
+            console.log(`${TIME} ${type.toUpperCase().padStart(5, ' ')} ${content}`);
+        }
     }
     return;
 };
