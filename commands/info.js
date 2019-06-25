@@ -19,16 +19,16 @@ module.exports = {
             } else {
                 TYPE = 'Type: Listen';
             }
-            const DATE = `Start Date: ${openttdUtils.convertOpenttdDate(openttd.gameInfo.map.startdate).format('DD MMM YYYY')}`;
+            const STARTDATE = `Start Date: ${openttdUtils.convertOpenttdDate(openttd.gameInfo.map.startdate).format('DD MMM YYYY')}`;
+            const CURDATE = `Current Date: ${openttdUtils.convertOpenttdDate(openttd.gameDate).format('DD MMM YYYY')}`;
             const SIZE = `Size: ${openttd.gameInfo.map.mapheight}x${openttd.gameInfo.map.mapwidth}`;
             /*
             TODO
             const LANDSCAPE = landscape enum convert
             const ADDRESS = public address
-            const CURDATE = current date
             */
 
-            const reply = `${NAME} ${VERSION} ${TYPE} ${DATE} ${SIZE}`;
+            const reply = `${NAME} ${VERSION} ${TYPE} ${STARTDATE} ${CURDATE} ${SIZE}`;
             message.reply(`\`${reply}\``);
         } else {
             message.reply('Not connected');
