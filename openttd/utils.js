@@ -13,7 +13,7 @@ const convertOpenttdDate = function(openttdDate) {
 };
 
 const getColourName = function(colour) {
-    return enums.ColourNames(colour);
+    return enums.ColourNames[colour];
 };
 
 const getLandscapeName = function(landscape) {
