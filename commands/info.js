@@ -22,13 +22,13 @@ module.exports = {
             const STARTDATE = `Start Date: ${openttdUtils.convertOpenttdDate(openttd.gameInfo.map.startdate).format('DD MMM YYYY')}`;
             const CURDATE = `Current Date: ${openttdUtils.convertOpenttdDate(openttd.gameDate).format('DD MMM YYYY')}`;
             const SIZE = `Size: ${openttd.gameInfo.map.mapheight}x${openttd.gameInfo.map.mapwidth}`;
+            const LANDSCAPE = `Landscape: ${openttdUtils.getLandscapeName(openttd.gameInfo.map.landscape)}`;
             /*
             TODO
-            const LANDSCAPE = landscape enum convert
             const ADDRESS = public address
             */
 
-            const reply = `${NAME} ${VERSION} ${TYPE} ${STARTDATE} ${CURDATE} ${SIZE}`;
+            const reply = `${NAME} ${VERSION} ${TYPE} ${STARTDATE} ${CURDATE} ${LANDSCAPE} ${SIZE}`;
             message.reply(`\`${reply}\``);
         } else {
             message.reply('Not connected');
