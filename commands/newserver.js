@@ -1,5 +1,5 @@
 // Grab OpenTTD helper
-const OpenTTD = require('../openttd.js');
+const OpenTTD = require('../openttd');
 
 module.exports = {
     name: 'newserver',

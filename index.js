@@ -2,7 +2,7 @@ const fs = require('fs');
 // Import discord.js module
 const Discord = require('discord.js');
 // Get the openttd handler
-const OpenTTD = require('./openttd.js');
+const OpenTTD = require('./openttd');
 // Grab version from npm package.json
 const BOTVERSION = require('./package.json').version;
 
