@@ -12,10 +12,12 @@ const convertOpenttdDate = function(openttdDate) {
     return OPENTTD_DATE;
 };
 
+// Retrieve OpenTTD colour name from table
 const getColourName = function(colour) {
     return enums.ColourNames[colour];
 };
 
+// Return text version of landscape
 const getLandscapeName = function(landscape) {
     switch (landscape) {
         case enums.Landscape.TEMPERATE: return 'Temperate';
