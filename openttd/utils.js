@@ -16,7 +16,17 @@ const getColourName = function(colour) {
     return enums.ColourNames(colour);
 };
 
+const getLandscapeName = function(landscape) {
+    switch (landscape) {
+        case enums.Landscape.TEMPERATE: return 'Temperate';
+        case enums.Landscape.ARCTIC: return 'Sub-arctic';
+        case enums.Landscape.TROPIC: return 'Sub-tropical';
+        case enums.Landscape.TOYLAND: return 'Toyland';
+    }
+};
+
 module.exports = {
     convertOpenttdDate,
-    getColourName
+    getColourName,
+    getLandscapeName
 };
