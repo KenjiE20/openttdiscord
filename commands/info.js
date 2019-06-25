@@ -1,4 +1,4 @@
-const moment = require('moment');
+const openttdUtils = require('../openttd/utils');
 
 module.exports = {
     name: 'info',
@@ -19,9 +19,7 @@ module.exports = {
             } else {
                 TYPE = 'Type: Listen';
             }
-            const OPENTTD_DATE = moment().year(0).dayOfYear(1);
-            OPENTTD_DATE.add(openttd.gameInfo.map.startdate, 'days');
-            const DATE = `Start Date: ${OPENTTD_DATE.format('DD MMM YYYY')}`;
+            const DATE = `Start Date: ${openttdUtils.convertOpenttdDate(openttd.gameInfo.map.startdate).format('DD MMM YYYY')}`;
             const SIZE = `Size: ${openttd.gameInfo.map.mapheight}x${openttd.gameInfo.map.mapwidth}`;
             /*
             TODO

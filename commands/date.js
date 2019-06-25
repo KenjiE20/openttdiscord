@@ -1,4 +1,4 @@
-const moment = require('moment');
+const openttdUtils = require('../openttd/utils');
 
 module.exports = {
     name: 'date',
@@ -11,9 +11,7 @@ module.exports = {
 
         // Check connection
         if (openttd.isConnected) {
-            const OPENTTD_DATE = moment().year(0).dayOfYear(1);
-            OPENTTD_DATE.add(openttd.gameDate, 'days');
-            const DATE = `Current Date: ${OPENTTD_DATE.format('DD MMM YYYY')}`;
+            const DATE = `Current Date: ${openttdUtils.convertOpenttdDate(openttd.gameDate).format('DD MMM YYYY')}`;
             message.reply(`\`${DATE}\``);
         } else {
             message.reply('Not connected');
