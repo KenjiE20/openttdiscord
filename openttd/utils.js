@@ -2,6 +2,7 @@
 Helper functions for working with OpenTTD data
 */
 const moment = require('moment');
+const enums = require('./enums');
 
 // Convert from OpenTTD date int to moment() object
 const convertOpenttdDate = function(openttdDate) {
@@ -11,6 +12,11 @@ const convertOpenttdDate = function(openttdDate) {
     return OPENTTD_DATE;
 };
 
+const getColourName = function(colour) {
+    return enums.ColourNames(colour);
+};
+
 module.exports = {
-    convertOpenttdDate
+    convertOpenttdDate,
+    getColourName
 };
