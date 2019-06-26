@@ -39,7 +39,7 @@ module.exports = {
             if(count === 0) {
                 reply = 'No players connected.';
             } else {
-                reply = `${players} ${pluralize('player', players)} connected, ${spec} ${pluralize('spectator', spec)} connected. ${count} total clients.`;
+                reply = `${players} ${pluralize('player', players)} connected, ${spec} ${pluralize('spectator', spec)} connected. ${count} total ${pluralize('client', count)}.`;
             }
             message.reply(`\`${reply}\``);
         } else {
