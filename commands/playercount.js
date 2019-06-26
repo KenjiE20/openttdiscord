@@ -25,7 +25,9 @@ module.exports = {
             if (count) {
                 for (const client in openttd.clientInfo) {
                     // Skip dedicated
-                    if (openttd.gameInfo.dedicated && client !== '1') {
+                    if (openttd.gameInfo.dedicated && client === '1') {
+                        continue;
+                    } else {
                         if (openttd.clientInfo[client].company !== '255') {
                             players += 1;
                         } else {
