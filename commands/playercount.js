@@ -1,3 +1,5 @@
+const pluralize = require('pluralize');
+
 module.exports = {
     name: 'playercount',
     description: 'Get quick player count for the current OpenTTD server\'s game',
@@ -9,18 +11,35 @@ module.exports = {
 
         // Check connection
         if (openttd.isConnected) {
-            // Get length of client info var
+            // Get length of client info var for total
             let count = Object.keys(openttd.clientInfo).length;
+            let players = 0;
+            let spec = 0;
+
             // If the server is dedciated, minus 1 for the server
             if (openttd.gameInfo.dedicated) {
                 count--;
             }
 
+            // Loop through and count players and spectators
+            if (count) {
+                for (const client in openttd.clientInfo) {
+                    // Skip dedicated
+                    if (openttd.gameInfo.dedicated && client !== '1') {
+                        if (openttd.clientInfo[client].company !== '255') {
+                            players += 1;
+                        } else {
+                            spec += 1;
+                        }
+                    }
+                }
+            }
+
             let reply;
-            switch(count) {
-                case 0: reply = 'No players connected.'; break;
-                case 1: reply = '1 player connected.'; break;
-                default: reply = `${count} players connected.`; break;
+            if(count === 0) {
+                reply = 'No players connected.';
+            } else {
+                reply = `${players} ${pluralize('player', players)} connected, ${spec} ${pluralize('spectator', spec)} connected. ${count} total clients.`;
             }
             message.reply(`\`${reply}\``);
         } else {
