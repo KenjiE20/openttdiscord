@@ -22,20 +22,20 @@ const ColourNames = {
 };
 
 const ColourHexes = {
-    0: '#8C441C', // Dark Blue
-    1: '#58744C', // Pale Green
-    2: '#6C54BC', // Pink
-    3: '#209CD4', // Yellow
-    4: '#0000C4', // Red
-    5: '#847034', // Light Blue
-    6: '#148454', // Green
-    7: '#3C6850', // Dark Green
-    8: '#DC7818', // Blue
-    9: '#5070B8', // Cream
-    10: '#745050', // Mauve
-    11: '#C44C68', // Purple
-    12: '#009CFC', // Orange
-    13: '#48687C', // Brown
+    0: '#1C448C', // Dark Blue
+    1: '#4C7458', // Pale Green
+    2: '#BC546C', // Pink
+    3: '#D49C20', // Yellow
+    4: '#C40000', // Red
+    5: '#347084', // Light Blue
+    6: '#548414', // Green
+    7: '#50683C', // Dark Green
+    8: '#1878DC', // Blue
+    9: '#B87050', // Cream
+    10: '#505074', // Mauve
+    11: '#684CC4', // Purple
+    12: '#FC9C00', // Orange
+    13: '#7C6848', // Brown
     14: '#737573', // Grey
     15: '#B8B8B8', // White
     16: '#101010' // Black, maybe? Not used for company colours, but this is the hex for map / input backgrounds
@@ -63,22 +63,22 @@ const TextColourCodes = {
 
 // Sourced via https://github.com/OpenTTD/OpenTTD/blob/master/docs/ottd-colourtext-palette.png
 const TextColourHexes = {
-    BLUE: '#E89038',
+    BLUE: '#3890E8',
     SILVER: '#C8C8C8',
-    GOLD: '#00C0FC',
-    RED: '#0000FC',
-    PURPLE: '#E088A8',
-    LIGHT_BROWN: '#84B0B0',
-    ORANGE: '#30B0FC',
-    GREEN: '#5CE090',
-    YELLOW: '#80F8FC',
-    DARK_GREEN: '#7CCCB4',
-    CREAM: '#8094D4',
-    BROWN: '#4060A4',
+    GOLD: '#FCC000',
+    RED: '#FC0000',
+    PURPLE: '#A888E0',
+    LIGHT_BROWN: '#B0B084',
+    ORANGE: '#FCB030',
+    GREEN: '#90E05C',
+    YELLOW: '#FCF880',
+    DARK_GREEN: '#B4CC7C',
+    CREAM: '#D49480',
+    BROWN: '#A46040',
     WHITE: '#FCFCFC',
-    LIGHT_BLUE: '#FCC480',
-    GREY: '#848484',
-    DARK_BLUE: '#A48484',
+    LIGHT_BLUE: '#80C4FC',
+    GREY: '#646464',
+    DARK_BLUE: '#8484A4',
     BLACK: '#101010'
 };
 
