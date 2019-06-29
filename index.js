@@ -196,3 +196,15 @@ discordClient.login(discordClient.config.token)
     .catch(error => {
         logger.error(`An error occurred connecting to Discord; ${error}`);
     });
+
+// Catch SIGINT and shutdown gracefully
+// No need for process.exit as shutting down the connections should end the event loop
+process.on('SIGINT', () => {
+    discordClient.botShutdown();
+});
+// Catch shutdown message (windows) and shutdown gracefully
+process.on('message', msg => {
+    if (msg === 'shutdown') {
+        discordClient.botShutdown();
+    }
+});
