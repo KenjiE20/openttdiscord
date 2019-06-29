@@ -9,6 +9,15 @@ module.exports = {
 
         // Check connection
         if (openttd.isConnected) {
+            let reply;
+            // If there are no clients, reply and stop
+            let count = Object.keys(openttd.clientInfo).length;
+            if (openttd.gameInfo.dedicated) count -= 1;
+            if(count === 0) {
+                reply = 'No players connected.';
+                message.reply(`\`${reply}\``);
+                return;
+            } 
             const PLAYERS = [];
             const SPECTATORS = [];
 
@@ -29,20 +38,15 @@ module.exports = {
                 }
             }
 
-            let reply;
-            if(Object.keys(openttd.clientInfo).length === 0) {
-                reply = 'No players connected.';
-            } else {
-                // Build the reply
-                reply = [];
-                if (PLAYERS.length) {
-                    reply.push(`${PLAYERS.join(', ')}`);
-                }
-                if (SPECTATORS.length) {
-                    reply.push(`Spectators: ${SPECTATORS.join(', ')}`);
-                }
-                reply = reply.join('\n');
+            // Build the reply
+            reply = [];
+            if (PLAYERS.length) {
+                reply.push(`${PLAYERS.join(', ')}`);
             }
+            if (SPECTATORS.length) {
+                reply.push(`Spectators: ${SPECTATORS.join(', ')}`);
+            }
+            reply = reply.join('\n');
             message.reply(`\`${reply}\``);
         } else {
             message.reply('Not connected');
