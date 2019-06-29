@@ -108,7 +108,21 @@ class Client {
         this.connection.on('companyinfo', company => {
             // Create properties if this is a new company
             if (!this.companyInfo[company.id]) {
-                this.companyInfo[company.id] = {'name': '', manager: '', colour: 0, protected: 0, startyear: 0, isai: 0, bankruptcy: 0, shares: {'1': 255, '2': 255, '3': 255, '4': 255}};
+                this.companyInfo[company.id] = {
+                    'name': '',
+                    'manager': '',
+                    'colour': 0,
+                    'protected': 0,
+                    'startyear': 0,
+                    'isai': 0,
+                    'bankruptcy': 0,
+                    'shares': {
+                        '1': 255,
+                        '2': 255,
+                        '3': 255,
+                        '4': 255
+                    }
+                };
             }
             this.companyInfo[company.id].name = company.name;
             this.companyInfo[company.id].manager = company.manager;
