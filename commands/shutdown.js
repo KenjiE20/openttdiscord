@@ -5,23 +5,7 @@ module.exports = {
     execute(message) {
         global.logger.debug(`Message author id: ${message.author.id} | OwnerID: ${message.client.config.ownerID}`);
         if (message.author.id === message.client.config.ownerID) {
-            // Attempt to disconnect each OpenTTD config
-            global.logger.info('Disconnecting from OpenTTD servers');
-            message.client.channelMap.tap(channel => {
-                if (channel.isConnected) {
-                    global.logger.debug(`Disconnecting from OpenTTD Server: ${channel.name}`);
-                    channel.disconnect();
-                }
-            });
-            
-            // Wait until connection counter clears to disconect discord and end
-            const shutdown = setInterval(() => {
-                if (!message.client.openttdConnected.count) {
-                    global.logger.info('Shutting down');
-                    message.client.destroy();
-                    clearInterval(shutdown);
-                }
-            }, 500);
+            message.client.botShutdown();
         }
     }
 };

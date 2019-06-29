@@ -21,6 +21,27 @@ global.logger = logger;
 // Init Discord client
 const discordClient = new Discord.Client();
 
+// Graceful shutdown function placed into discordClient for access from commands
+discordClient.botShutdown = function() {
+    // Attempt to disconnect each OpenTTD config
+    logger.info('Disconnecting from OpenTTD servers');
+    discordClient.channelMap.tap(channelOpenttd => {
+        if (channelOpenttd.isConnected) {
+            logger.debug(`Disconnecting from OpenTTD Server: ${channelOpenttd.name}`);
+            channelOpenttd.disconnect();
+        }
+    });
+    
+    // Wait until connection counter clears to disconect discord and end
+    const shutdownTimer = setInterval(() => {
+        if (!discordClient.openttdConnected.count) {
+            logger.info('Shutting down');
+            discordClient.destroy();
+            clearInterval(shutdownTimer);
+        }
+    }, 100);
+};
+
 // Load config.json into client for ease of access
 const configFile = require('./config.json');
 discordClient.config = configFile;
