@@ -51,10 +51,12 @@ class Client {
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, 0xFFFFFFFF);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.DATE);
+            this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_STATS);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.DATE, openttdAdmin.enums.UpdateFrequencies.DAILY);
+            this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_STATS, openttdAdmin.enums.UpdateFrequencies.WEEKLY);
         });
 
         // Client Events
@@ -121,6 +123,20 @@ class Client {
                         '2': 255,
                         '3': 255,
                         '4': 255
+                    },
+                    'vehicles': {
+                        trains: 0,
+                        lorries: 0,
+                        busses: 0,
+                        planes: 0,
+                        ships: 0
+                    },
+                    'stations': {
+                        trains: 0,
+                        lorries: 0,
+                        busses: 0,
+                        planes: 0,
+                        ships: 0
                     }
                 };
             }
@@ -151,6 +167,11 @@ class Client {
             channel.send(`\`${remove}\``);
             delete this.companyInfo[company.id];
             global.logger.trace(`companyremove: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+        });
+        this.connection.on('companystats', company => {
+            this.companyInfo[company.id].vehicles = company.vehicles;
+            this.companyInfo[company.id].stations = company.stations;
+            global.logger.trace(`companystats: companyInfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
         });
 
         // Date handler
