@@ -38,6 +38,7 @@ discordClient.botShutdown = function() {
             logger.info('Shutting down');
             discordClient.destroy();
             clearInterval(shutdownTimer);
+            process.exit(0);
         }
     }, 100);
 };
@@ -198,7 +199,6 @@ discordClient.login(discordClient.config.token)
     });
 
 // Catch SIGINT and shutdown gracefully
-// No need for process.exit as shutting down the connections should end the event loop
 process.on('SIGINT', () => {
     discordClient.botShutdown();
 });
