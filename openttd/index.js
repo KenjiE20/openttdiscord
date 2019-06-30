@@ -91,8 +91,8 @@ class Client {
         });
         this.connection.on('clienterror', client => {
             global.logger.trace(`OpenTTD client error: id; ${client.id}, error; ${client.error}`);
-            // Only handle clienterror when it provides an error, as this event fires while clients join and leave
-            if (client.error) {
+            // Only handle clienterror when it provides an error and client was fully connected/cached, as this event fires while clients join and leave
+            if (client.error && this.clientInfo[client.id]) {
                 channel.send(`\`${this.clientInfo[client.id].name} got an error; ${client.error}\``);
                 delete this.clientInfo[client.id];
                 global.logger.trace('clienterror: clientinfo is now;', this.clientInfo);
