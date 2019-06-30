@@ -7,6 +7,13 @@ module.exports = {
     usage: '<[name] [address] [port]>',
     guildOnly: true,
     execute(message, args) {
+        // Check we're not overwriting existing configs
+        const openttd = message.client.channelMap.get(message.channel.id);
+        if (openttd) {
+            message.reply('This channel already has a config set up');
+            return;
+        }
+
         // Set up a new element in the channel map
         message.client.channelMap.set(message.channel.id, new OpenTTD.Client(args[0], args[1], args[2], null, message.channel));
         // Add element config to the main config
