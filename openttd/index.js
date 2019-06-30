@@ -62,6 +62,7 @@ class Client {
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, 0xFFFFFFFF);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.DATE);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_STATS);
+            this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CONSOLE, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
@@ -76,6 +77,15 @@ class Client {
             this.clientInfo = {};
             this.companyInfo = {};
             this.gameDate = 0;
+        });
+        this.connection.on('console', openttdConsole => {
+            global.logger.trace('console;', openttdConsole);
+            // Output contains a direction unicode marker, so strip this for tests
+            const MESSAGE = openttdConsole.output.substring(1);
+            // Pause messages
+            if (MESSAGE.startsWith('***') && MESSAGE.includes('pause')) {
+                channel.send(`\`${openttdConsole.output}\``);
+            }
         });
 
         // Client Events
