@@ -204,19 +204,21 @@ class Client {
             }
         });
     }
-
-    // Function to connect to OpenTTD
-    connect() {
-        return this.connection.connect(this.address, this.port);
-    }
-    // Chat function
-    sendChat(message) {
-        this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${message.author.username}> ${message.content}`);
-    }
-    // Function to clean up
-    disconnect() {
-        this.connection.close();
-    }
 }
+
+// Function to connect to OpenTTD
+Client.prototype.connect = function() {
+    return this.connection.connect(this.address, this.port);
+};
+
+// Chat function
+Client.prototype.sendChat = function(message) {
+    this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${message.author.username}> ${message.content}`);
+};
+
+// Function to clean up
+Client.prototype.disconnect = function() {
+    this.connection.close();
+};
 
 exports.Client = Client;
