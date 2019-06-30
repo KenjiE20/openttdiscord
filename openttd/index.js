@@ -40,8 +40,17 @@ class Client {
             }
         });
         this.connection.on('welcome', data => {
-            this.isConnected = true;
-            channel.client.openttdConnected.increment();
+            // Reset info cache
+            this.gameInfo;
+            this.clientInfo = {};
+            this.companyInfo = {};
+            this.gameDate = 0;
+            
+            // Only toggle and increment if new connection, not when a new game happens
+            if (!this.isConnected) {
+                this.isConnected = true;
+                channel.client.openttdConnected.increment();
+            }
             global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
             channel.send(`\`Connected to OpenTTD Server: ${this.name}\``);
             // Cache info
@@ -57,6 +66,15 @@ class Client {
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.CHAT, openttdAdmin.enums.UpdateFrequencies.AUTOMATIC);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.DATE, openttdAdmin.enums.UpdateFrequencies.DAILY);
             this.connection.send_update_frequency(openttdAdmin.enums.UpdateTypes.COMPANY_STATS, openttdAdmin.enums.UpdateFrequencies.WEEKLY);
+        });
+        this.connection.on('newgame', () => {
+            global.logger.trace('newgame; resetting caches');
+            channel.send('`New game starting, please stand by`');
+            // Reset info cache
+            this.gameInfo;
+            this.clientInfo = {};
+            this.companyInfo = {};
+            this.gameDate = 0;
         });
 
         // Client Events
