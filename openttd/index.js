@@ -105,13 +105,17 @@ class Client {
             global.logger.trace('clientupdate: clientinfo is now;', this.clientInfo);
         });
         this.connection.on('clientjoin', id => {
+            global.logger.trace(`clientjoin: id; ${id}`);
             // Name check in case events happened out of order
             if (this.clientInfo[id].name) {
                 let join = `${this.clientInfo[id].name} has connected`;
                 if (this.clientInfo[id].company === 255) {
                     join += ' (Spectator)';
                 } else {
-                    join += ` in Company #${this.clientInfo[id].company+1} (${this.companyInfo[this.clientInfo[id].company].name})`;
+                    // Test if company exists
+                    if (this.companyInfo[this.clientInfo[id].company]) {
+                        join += ` in Company #${this.clientInfo[id].company+1} (${this.companyInfo[this.clientInfo[id].company].name})`;
+                    }
                 }
                 channel.send(`\`${join}\``);
             } else {
