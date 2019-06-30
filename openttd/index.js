@@ -28,11 +28,12 @@ class Client {
             this.connection.authenticate('OpenTTDiscord', this.password);
         });
         this.connection.on('error', error => {
-            global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
             if (error === 'connectionerror') {
-                channel.send(`\`Error connecting to OpenTTD Server: ${this.name}\``);
+                channel.send(`\`An Error occurred with OpenTTD Server: ${this.name}\``);
+                global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
             } else if (error === 'connectionclose') {
                 channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``);
+                global.logger.info(`OpenTTD connection closed: ${this.name}`);
             }
             if (this.isConnected) {
                 this.isConnected = false;
