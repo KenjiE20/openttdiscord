@@ -32,4 +32,7 @@ exports.error = (args) => this.log(args, 'error');
 exports.warn = (args) => this.log(args, 'warn');
 exports.info = (args) => this.log(args, 'info');
 exports.debug = (args) => this.log(args, 'debug');
-exports.trace = (args) => this.log(args, 'trace');
+exports.trace = (args, obj) => {
+    if (obj) args = `${args}\n${JSON.stringify(obj, null, 4)}`;
+    this.log(args, 'trace');
+};
