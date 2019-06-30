@@ -47,7 +47,7 @@ discordClient.botShutdown = function() {
 const configFile = require('./config.json');
 discordClient.config = configFile;
 logger.info('Config file loaded');
-logger.trace(`Config:\n${JSON.stringify(discordClient.config, null, 4)}`);
+logger.trace('Config:', discordClient.config);
 logger.debug(`Prefix: ${discordClient.config.prefix}`);
 
 logger.info('Loading command files');
@@ -96,7 +96,7 @@ discordClient.once('ready', () => {
     discordClient.channelMap = new Discord.Collection();
     if (discordClient.config.channelMapping) {
         logger.debug('Has channel mapping in config');
-        logger.trace(`channelMapping:\n${JSON.stringify(discordClient.config.channelMapping, null, 4)}`);
+        logger.trace('channelMapping:', discordClient.config.channelMapping);
         // Load existing configs and copy into handler
         for (const channelID in discordClient.config.channelMapping) {
             if (!discordClient.channels.has(channelID)) {

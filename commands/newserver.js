@@ -23,6 +23,6 @@ module.exports = {
         mapConfig.autoconnect = map.autoconnect;
         global.logger.info(`New OpenTTD server set up for channel: ${message.channel.id}`);
         message.reply('Config set up, remember to save the config file');
-        global.logger.trace(`channelMapping:\n${JSON.stringify(message.client.config.channelMapping, null, 4)}`);
+        global.logger.trace('channelMapping:', message.client.config.channelMapping);
     }
 };

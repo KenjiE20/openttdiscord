@@ -46,7 +46,7 @@ class Client {
             channel.send(`\`Connected to OpenTTD Server: ${this.name}\``);
             // Cache info
             this.gameInfo = data;
-            global.logger.trace(`gameinfo;\n${JSON.stringify(this.gameInfo, null, 4)}`);
+            global.logger.trace('gameinfo;', this.gameInfo);
             // Request updates
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.CLIENT_INFO, 0xFFFFFFFF);
             this.connection.send_poll(openttdAdmin.enums.UpdateTypes.COMPANY_INFO, 0xFFFFFFFF);
@@ -63,7 +63,7 @@ class Client {
         this.connection.on('clientinfo', client => {
             // Cache client info
             this.clientInfo[client.id] = {'ip': client.ip, 'name': client.name, 'lang': client.lang, 'joindate': client.joindate, 'company': client.company};
-            global.logger.trace(`clientinfo: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
+            global.logger.trace('clientinfo: clientinfo is now;', this.clientInfo);
         });
         this.connection.on('clientupdate', client => {
             // Send changed info to Discord
@@ -73,7 +73,7 @@ class Client {
             // Update cached client info
             this.clientInfo[client.id].name = client.name;
             this.clientInfo[client.id].company = client.company;
-            global.logger.trace(`clientupdate: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
+            global.logger.trace('clientupdate: clientinfo is now;', this.clientInfo);
         });
         this.connection.on('clientjoin', id => {
             // Name check in case events happened out of order
@@ -95,13 +95,13 @@ class Client {
             if (client.error) {
                 channel.send(`\`${this.clientInfo[client.id].name} got an error; ${client.error}\``);
                 delete this.clientInfo[client.id];
-                global.logger.trace(`clienterror: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
+                global.logger.trace('clienterror: clientinfo is now;', this.clientInfo);
             }
         });
         this.connection.on('clientquit', client => {
             channel.send(`\`${this.clientInfo[client.id].name} quit\``);
             delete this.clientInfo[client.id];
-            global.logger.trace(`clientquit: clientinfo is now;\n${JSON.stringify(this.clientInfo, null, 4)}`);
+            global.logger.trace('clientquit: clientinfo is now;', this.clientInfo);
         });
 
         // Company Events
@@ -146,7 +146,7 @@ class Client {
             this.companyInfo[company.id].protected = company.protected;
             this.companyInfo[company.id].startyear = company.startyear;
             this.companyInfo[company.id].isai = company.isai;
-            global.logger.trace(`companyinfo: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+            global.logger.trace('companyinfo: companyinfo is now;', this.companyInfo);
         });
         this.connection.on('companyupdate', company => {
             this.companyInfo[company.id].name = company.name;
@@ -155,7 +155,7 @@ class Client {
             this.companyInfo[company.id].protected = company.protected;
             this.companyInfo[company.id].bankruptcy = company.bankruptcy;
             this.companyInfo[company.id].shares = company.shares;
-            global.logger.trace(`companyupdate: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+            global.logger.trace('companyupdate: companyinfo is now;', this.companyInfo);
         });
         this.connection.on('companyremove', company => {
             let remove = `Company #${company.id+1} (${this.companyInfo[company.id].name}) was removed`;
@@ -166,23 +166,23 @@ class Client {
             }
             channel.send(`\`${remove}\``);
             delete this.companyInfo[company.id];
-            global.logger.trace(`companyremove: companyinfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+            global.logger.trace('companyremove: companyinfo is now;', this.companyInfo);
         });
         this.connection.on('companystats', company => {
             this.companyInfo[company.id].vehicles = company.vehicles;
             this.companyInfo[company.id].stations = company.stations;
-            global.logger.trace(`companystats: companyInfo is now;\n${JSON.stringify(this.companyInfo, null, 4)}`);
+            global.logger.trace('companystats: companyInfo is now;', this.companyInfo);
         });
 
         // Date handler
         this.connection.on('date', date => {
             this.gameDate = date;
-            global.logger.trace(`date: gameDate is now;\n${JSON.stringify(this.gameDate, null, 4)}`);
+            global.logger.trace('date: gameDate is now;', this.gameDate);
         });
 
         // Handle chat
         this.connection.on('chat', chat => {
-            global.logger.trace(`chat;\n${JSON.stringify(chat, null, 4)}`);
+            global.logger.trace('chat;', chat);
             // Only pass broadcast chats
             if (chat.action === openttdAdmin.enums.Actions.CHAT && chat.desttype === openttdAdmin.enums.DestTypes.BROADCAST) {
                 channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);

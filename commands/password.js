@@ -14,9 +14,9 @@ module.exports = {
 
             // rcon callback
             const parser = function(rcon) {
-                global.logger.debug(`got rcon: ${JSON.stringify(rcon, null, 4)}`);
+                global.logger.trace('got rcon:', rcon);
                 const pw = /Current value for 'server_password' is: '(.*)'/.exec(rcon.output);
-                global.logger.trace(JSON.stringify(pw, null, 4));
+                global.logger.trace('pw', pw);
                 if (pw[1]) {
                     message.channel.send(`\`Current password: ${pw[1]}\``);
                 } else {
@@ -26,7 +26,7 @@ module.exports = {
 
             // rconend callback
             const disconnect = function(rconend) {
-                global.logger.trace(`Got rconend: ${JSON.stringify(rconend, null, 4)}`);
+                global.logger.trace('Got rconend:', rconend);
                 if (rconend.command === command) {
                     openttd.connection.removeListener('rcon', parser);
                     openttd.connection.removeListener('rconend', disconnect);
