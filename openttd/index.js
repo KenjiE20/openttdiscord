@@ -3,13 +3,14 @@ const openttdAdmin = require('node-openttd-admin');
 
 // Handler class
 class Client {
-    constructor(name, address, port, password, channel, autoconnect) {
+    constructor(name, address, port, password, channel, autoconnect, publicAddress) {
         // Defaults for new objects
         this.name = name || 'OpenTTD Server';
         this.address = address || 'localhost';
         this.port = port || 3977;
         this.password = password || 'password';
         this.autoconnect = autoconnect || false;
+        this.publicAddress = publicAddress || null;
         // Discord channel map
         this.channel = channel || '';
         this.connection = new openttdAdmin.connection();

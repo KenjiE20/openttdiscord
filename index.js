@@ -103,7 +103,7 @@ discordClient.once('ready', () => {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
             } else {
                 const config = discordClient.config.channelMapping[channelID];
-                discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID), config.autoconnect));
+                discordClient.channelMap.set(channelID, new OpenTTD.Client(config.name, config.address, config.port, config.password, discordClient.channels.get(channelID), config.autoconnect, config.public));
             }
         }
         // Attempt to connect to each OpenTTD config
