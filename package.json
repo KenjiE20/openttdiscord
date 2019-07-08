@@ -19,7 +19,7 @@
   "dependencies": {
     "discord.js": "^11.5.0",
     "moment": "^2.24.0",
-    "node-openttd-admin": "^0.2.3",
+    "node-openttd-admin": "^0.2.4",
     "pluralize": "^8.0.0"
   }
 }
