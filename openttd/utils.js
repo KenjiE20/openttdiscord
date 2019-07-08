@@ -1,6 +1,6 @@
 /*
-Helper functions for working with OpenTTD data
-*/
+ *Helper functions for working with OpenTTD data
+ */
 const moment = require('moment');
 const enums = require('./enums');
 

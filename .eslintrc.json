@@ -17,6 +17,8 @@
         "eqeqeq": "warn",
         "camelcase": "error",
         "no-var": "error",
-        "prefer-template": "error"
+        "prefer-template": "error",
+        "spaced-comment": "error",
+        "multiline-comment-style": ["error", "starred-block"]
     }
 }

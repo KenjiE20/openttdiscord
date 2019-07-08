@@ -138,9 +138,11 @@ class Client {
             global.logger.trace('clientquit: clientinfo is now;', this.clientInfo);
         });
 
-        // Company Events
-        // companyinfo and companyupdate both hold shared and unique elements
-        // so in order to cache, these have to be mapped individually
+        /*
+         * Company Events
+         * companyinfo and companyupdate both hold shared and unique elements
+         * so in order to cache, these have to be mapped individually
+         */
         this.connection.on('companyinfo', company => {
             // Create properties if this is a new company
             if (!this.companyInfo[company.id]) {

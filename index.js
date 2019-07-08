@@ -184,12 +184,6 @@ discordClient.on('reconnecting', () => {
     logger.info('Reconnecting to discord');
 });
 
-/*
-discordClient.on('disconnect', close => {
-    logger.debug(`code: ${close.code}\nreason: ${close.reason}\nclean: ${close.clean}`);
-});
-*/
-
 logger.info(`OpenTTDiscord bot v${BOTVERSION}`);
 logger.info('Connecting to Discord');
 // Log in to discord
