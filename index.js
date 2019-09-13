@@ -15,7 +15,7 @@ const discordClient = new Discord.Client();
 discordClient.config = config.load();
 
 // Set up logger and make it global for everything to use
-const logger = require('./logger.js');
+const logger = require('./modules/logger');
 logger.setLevel(discordClient.config.loglevel);
 global.logger = logger;
 
