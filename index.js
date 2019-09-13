@@ -5,21 +5,27 @@ const Discord = require('discord.js');
 const OpenTTD = require('./openttd');
 // Grab version from npm package.json
 const BOTVERSION = require('./package.json').version;
-
-// Check for config file and stop if not found
-try {
-    fs.accessSync('./config.json', fs.constants.R_OK);
-} catch (error) {
-    console.error(`Problem reading config.json: ${error}`);
-    return;
-}
-
-// Set up logger and make it global for everything to use
-const logger = require('./logger.js');
-global.logger = logger;
+// Config module
+const config = require('./modules/config');
 
 // Init Discord client
 const discordClient = new Discord.Client();
+
+// Load config into client for ease of access
+discordClient.config = config.load();
+
+// Set up logger and make it global for everything to use
+const logger = require('./logger.js');
+logger.setLevel(discordClient.config.loglevel);
+global.logger = logger;
+
+// Start up logging
+logger.info('Config file loaded');
+logger.debug(`Prefix: ${discordClient.config.prefix}`);
+logger.trace('Config:', discordClient.config);
+
+// Config save action for commands to use
+discordClient.saveBotConfig = config.save;
 
 // Graceful shutdown function placed into discordClient for access from commands
 discordClient.botShutdown = function() {
@@ -42,13 +48,6 @@ discordClient.botShutdown = function() {
         }
     }, 100);
 };
-
-// Load config.json into client for ease of access
-const configFile = require('./config.json');
-discordClient.config = configFile;
-logger.info('Config file loaded');
-logger.trace('Config:', discordClient.config);
-logger.debug(`Prefix: ${discordClient.config.prefix}`);
 
 logger.info('Loading command files');
 // Command collection
@@ -186,6 +185,7 @@ discordClient.on('reconnecting', () => {
 
 logger.info(`OpenTTDiscord bot v${BOTVERSION}`);
 logger.info('Connecting to Discord');
+
 // Log in to discord
 discordClient.login(discordClient.config.token)
     .catch(error => {

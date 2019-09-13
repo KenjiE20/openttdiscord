@@ -1,0 +1,52 @@
+# Bot command prefix
+prefix: '!'
+
+# Discord bot token
+token: YOUR-BOT-TOKEN-HERE
+
+# Logging level
+# Valid levels: trace, debug, info, warn, error
+# Default: info
+loglevel: info
+
+# OpenTTD server to Discord channel map
+# Bot owners may use the 'newserver' command to create a default config to edit
+#
+# # Discord channel ID as a string
+# 'discord channel id':
+#    # Internal server name, used for logging purposes
+#    name: OpenTTD Server
+#    # OpenTTD Server address
+#    address: zaphod
+#    # OpenTTD Server admin port
+#    port: 3977
+#    # OpenTTD Server admin port password
+#    password: test
+#    # Autoconnect to OpenTTD Server on Discord channel connect
+#    autoconnect: true
+channelMapping:
+  '123456789012345678':
+    name: OpenTTD Server
+    address: localhost
+    port: 3977
+    password: password
+    autoconnect: true
+
+# Bot user permission roles
+# IDs must be strings
+roles:
+  # User IDs to consider owners
+  ownerID:
+    - '123456789012345678'
+  # Guild roles to treat as admin
+  # Can be role ID's or full role names
+  admin:
+    - admin
+  # Guild roles to treat as mods
+  # Can be role ID's or full role names
+  mod:
+    - mod
+  # Guild roles to treat as players
+  # OPTIONAL - leave blank to disable
+  # Can be role ID's or full role names
+  player:

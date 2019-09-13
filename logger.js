@@ -8,8 +8,11 @@ const levels = {
     'error': 4
 };
 
-// Get logging level from config, or fallback to default
-const LOGGINGLEVEL = require('./config.json').loglevel || 'info';
+// Set logging level
+let LOGGINGLEVEL;
+exports.setLevel = (configLevel) => {
+    LOGGINGLEVEL = configLevel;
+};
 
 // Master logging function
 exports.log = (content, type = 'info') => {
