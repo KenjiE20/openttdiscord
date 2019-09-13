@@ -1,4 +1,3 @@
-const fs = require('fs');
 module.exports = {
     name: 'save',
     description: 'Saves the current config',
@@ -7,16 +6,16 @@ module.exports = {
         // Authorisation check
         if (message.author.id === message.client.config.ownerID) {
             global.logger.info('Saving config');
-            const data = JSON.stringify(message.client.config, null, 4);
-            fs.writeFile('config.json', data, (error) => {
-                if (error) {
-                    global.logger.error(`There was an error writing the config:\n${error}`);
-                    message.reply('There was an error saving, please see the logs for more details');
-                } else {
-                    global.logger.info('Config saved');
-                    message.reply('Config saved');
-                }
-            });
+            message.client.saveBotConfig(message.client.config)
+                .then(result => {
+                    if (result === 'OK') {
+                        global.logger.info('Config saved');
+                        message.reply('Config saved');
+                    } else {
+                        global.logger.error(`There was an error writing the config:\n${result}`);
+                        message.reply('There was an error saving, please see the logs for more details');
+                    }
+                });
         }
     }
 };
