@@ -30,7 +30,7 @@ module.exports = {
                 // If we've previously output
                 if (pwMessage) {
                     // Edit to update password
-                    pwMessage.edit(passwordText)
+                    pwMessage.edit(`~~${pwMessage.content}~~\n${passwordText}`)
                         .then(() => {
                             // Update occured, stop checks
                             global.logger.debug('Password updated, ending update checks');
