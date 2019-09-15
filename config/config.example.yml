@@ -34,6 +34,7 @@ channelMapping:
 
 # Bot user permission roles
 # IDs must be strings
+# Role names are case sensitive
 roles:
   # User IDs to consider owners
   ownerID:
@@ -42,6 +43,8 @@ roles:
   # Can be role ID's or full role names
   admin:
     - admin
+    - Admin
+    - '123456789012345678'
   # Guild roles to treat as mods
   # Can be role ID's or full role names
   mod:
