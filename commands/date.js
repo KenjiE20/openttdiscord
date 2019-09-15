@@ -5,6 +5,7 @@ module.exports = {
     description: 'Gives the in game date for the current OpenTTD server\'s password',
     guildOnly: true,
     openttd: true,
+    perm: 'player',
     execute(message) {
         // Get the OpenTTD server for the channel
         const openttd = message.client.channelMap.get(message.channel.id);

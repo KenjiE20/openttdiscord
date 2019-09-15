@@ -5,6 +5,7 @@ module.exports = {
     description: 'Get some basic info about the current OpenTTD server\'s game',
     guildOnly: true,
     openttd: true,
+    perm: 'player',
     execute(message) {
         // Get the OpenTTD server for the channel
         const openttd = message.client.channelMap.get(message.channel.id);
