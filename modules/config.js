@@ -9,8 +9,13 @@ exports.load = () => {
         const config = yaml.safeLoad(fs.readFileSync(configFile, 'utf8'));
 
         // Set defaults if not in config
-        if (config.prefix === null) config.prefix = '!';
-        if (config.loglevel === null) config.prefix = 'info';
+        if (!config.prefix) config.prefix = '!';
+        if (!config.loglevel) config.prefix = 'info';
+        // Make sure some values at least exist
+        if (!config.roles.ownerID) config.roles.ownerID = [];
+        if (!config.roles.admin) config.roles.admin = [];
+        if (!config.roles.mod) config.roles.mod = [];
+        if (!config.roles.player) config.roles.player = [];
 
         return config;
     } catch (e) {

@@ -7,6 +7,8 @@ const OpenTTD = require('./openttd');
 const BOTVERSION = require('./package.json').version;
 // Config module
 const config = require('./modules/config');
+// Permissions module
+const perm = require('./modules/permissions');
 
 // Init Discord client
 const discordClient = new Discord.Client();
@@ -23,9 +25,14 @@ global.logger = logger;
 logger.info('Config file loaded');
 logger.debug(`Prefix: ${discordClient.config.prefix}`);
 logger.trace('Config:', discordClient.config);
+// Owner ID check
+if (discordClient.config.roles.ownerID.length === 0) logger.warn('No ownerID set');
 
 // Config save action for commands to use
 discordClient.saveBotConfig = config.save;
+
+// Set up permissions
+perm.setRoles(discordClient.config.roles);
 
 // Graceful shutdown function placed into discordClient for access from commands
 discordClient.botShutdown = function() {
@@ -139,6 +146,12 @@ discordClient.on('message', message => {
     const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
     if (!command) {
         logger.debug(`Invalid command: ${commandName}`);
+        return;
+    }
+
+    // Check permissions
+    if (!perm.hasPerm(message, command.perm)) {
+        message.reply('You do not have permissions for this command');
         return;
     }
 
