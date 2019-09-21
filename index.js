@@ -125,17 +125,18 @@ discordClient.once('ready', () => {
 
 // Got a discord message
 discordClient.on('message', message => {
-    // Handle chat if it isn't another bot and isn't a command
-    if (!message.author.bot && !message.content.startsWith(discordClient.config.prefix)) {
+    // Bot check
+    if (message.author.bot) return;
+
+    // Handle chat if it isn't a command
+    if (!message.content.startsWith(discordClient.config.prefix)) {
         // Check channel has an OpenTTD connection and send chat if it does
         const openttd = discordClient.channelMap.get(message.channel.id);
         if (openttd && openttd.isConnected) {
             openttd.sendChat(message);
         }
+        return;
     }
-
-    // Check if message has command prefix, and isn't another bot
-    if (!message.content.startsWith(discordClient.config.prefix) || message.author.bot) return;
 
     // Split message into command and arguments
     const args = message.content.slice(discordClient.config.prefix.length).split(/ +/);
