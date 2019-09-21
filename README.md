@@ -17,7 +17,7 @@ A Discord bot for connecting OpenTTD and Discord
 ## About
 This bot is currently very early, expect things to not work
 
-This bot connects a discord channel to an OpenTTD server via the Admin Port and passes chat messages between the two. It also gives status updates to the discord channel (e.g. player joins, new companyies, etc.)
+This bot connects a discord channel to an OpenTTD server via the Admin Port and passes chat messages between the two. It also gives status updates to the discord channel (e.g. player joins, new companies, etc.)
 
 ## Getting Started
 
