@@ -10,7 +10,7 @@ class Client {
         this.port = port || 3977;
         this.password = password || 'password';
         this.autoconnect = autoconnect || false;
-        this.publicAddress = publicAddress || null;
+        this.publicAddress = publicAddress ||  'N/A';
         // Discord channel map
         this.channel = channel || '';
         this.connection = new openttdAdmin.connection();

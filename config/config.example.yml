@@ -24,6 +24,8 @@ loglevel: info
 #    password: test
 #    # Autoconnect to OpenTTD Server on Discord channel connect
 #    autoconnect: true
+#    # Public address players use to connect to OpenTTD
+#    public: localhost:3979
 channelMapping:
   '123456789012345678':
     name: OpenTTD Server
@@ -31,6 +33,7 @@ channelMapping:
     port: 3977
     password: password
     autoconnect: true
+    public: localhost:3979
 
 # Bot user permission roles
 # IDs must be strings
