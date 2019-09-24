@@ -11,6 +11,7 @@ exports.load = () => {
         // Set defaults if not in config
         if (!config.prefix) config.prefix = '!';
         if (!config.loglevel) config.loglevel = 'info';
+        if (!config.cooldown) config.cooldown = 2;
         // Make sure some values at least exist
         if (!config.roles.ownerID) config.roles.ownerID = [];
         if (!config.roles.admin) config.roles.admin = [];

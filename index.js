@@ -68,6 +68,9 @@ commandFiles.forEach(f => {
 });
 logger.info(`Loaded ${discordClient.commands.size} commands`);
 
+// Collection to hold coldown tracking for commands
+const cooldowns = new Discord.Collection();
+
 // Discord client is connected and ready
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
@@ -177,6 +180,36 @@ discordClient.on('message', message => {
         message.reply('This command requires an OpenTTD server set up for this channel');
         return;
     }
+
+    // Check for cooldowns
+    if (!cooldowns.has(command.name)) {
+        // No cooldown for this command yet, so set up
+        cooldowns.set(command.name, new Discord.Collection());
+    }
+    // Current timestamp
+    const now = Date.now();
+    // Collection for the triggered command
+    const timestamps = cooldowns.get(command.name);
+    // Get cooldown for this command
+    const cooldownAmount = (command.cooldown || discordClient.config.cooldown) * 1000;
+    
+    // If the author has a cooldown
+    if (timestamps.has(message.author.id)) {
+        // Calculate the cooldown expiry
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    
+        // Check for expiry
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing \`${command.name}\``);
+            return;
+        }
+    }
+
+    // Cooldown check cleared, add user to the timestamps
+    timestamps.set(message.author.id, now);
+    // Delete user after the cooldown passes
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
     // Attempt to execute command
     logger.debug(`Attemping command: ${command.name} (${commandName})`);

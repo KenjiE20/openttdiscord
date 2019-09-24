@@ -5,6 +5,7 @@ module.exports = {
     openttd: true,
     alias: ['pw'],
     perm: 'player',
+    cooldown: 30,
     execute(message) {
         // Get the OpenTTD server for the channel
         const openttd = message.client.channelMap.get(message.channel.id);

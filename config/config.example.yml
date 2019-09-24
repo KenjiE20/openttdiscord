@@ -9,6 +9,11 @@ token: YOUR-BOT-TOKEN-HERE
 # Default: info
 loglevel: info
 
+# Command cooldown
+# Time between the same user triggering a command
+# Default: 2secs
+cooldown: 2
+
 # OpenTTD server to Discord channel map
 # Bot owners may use the 'newserver' command to create a default config to edit
 #
