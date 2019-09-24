@@ -43,3 +43,4 @@ See also the list of [contributors](https://github.com/kenjie20/openttdiscord/co
 + [OpenTTD](https://www.openttd.org)
 + [#openttdcoop](https://www.openttdcoop.org)
 + [Supybot OpenTTD Administration Plugin](https://dev.openttdcoop.org/projects/soap)
++ [Discord.js Guide](https://discordjs.guide/) & [An Idiot's Guide](https://anidiots.guide/)
