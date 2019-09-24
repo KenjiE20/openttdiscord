@@ -1,6 +1,6 @@
 {
   "name": "openttdiscord",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "A Discord bot for connecting OpenTTD and Discord",
   "main": "index.js",
   "scripts": {
