@@ -10,7 +10,7 @@ exports.load = () => {
 
         // Set defaults if not in config
         if (!config.prefix) config.prefix = '!';
-        if (!config.loglevel) config.prefix = 'info';
+        if (!config.loglevel) config.loglevel = 'info';
         // Make sure some values at least exist
         if (!config.roles.ownerID) config.roles.ownerID = [];
         if (!config.roles.admin) config.roles.admin = [];
