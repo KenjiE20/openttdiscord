@@ -14,6 +14,11 @@ loglevel: info
 # Default: 2secs
 cooldown: 2
 
+# Bot status update interval
+# How frequently should the bot update it's status (number of servers this bot is online on)
+# Default: 10secs
+statusinterval: 10
+
 # OpenTTD server to Discord channel map
 # Bot owners may use the 'newserver' command to create a default config to edit
 #
@@ -32,32 +37,32 @@ cooldown: 2
 #    # Public address players use to connect to OpenTTD
 #    public: localhost:3979
 channelMapping:
-  '123456789012345678':
-    name: OpenTTD Server
-    address: localhost
-    port: 3977
-    password: password
-    autoconnect: true
-    public: localhost:3979
+    '123456789012345678':
+        name: OpenTTD Server
+        address: localhost
+        port: 3977
+        password: password
+        autoconnect: true
+        public: localhost:3979
 
 # Bot user permission roles
 # IDs must be strings
 # Role names are case sensitive
 roles:
-  # User IDs to consider owners
-  ownerID:
-    - '123456789012345678'
-  # Guild roles to treat as admin
-  # Can be role ID's or full role names
-  admin:
-    - admin
-    - Admin
-    - '123456789012345678'
-  # Guild roles to treat as mods
-  # Can be role ID's or full role names
-  mod:
-    - mod
-  # Guild roles to treat as players
-  # OPTIONAL - leave blank to disable
-  # Can be role ID's or full role names
-  player:
+    # User IDs to consider owners
+    ownerID:
+        - '123456789012345678'
+    # Guild roles to treat as admin
+    # Can be role ID's or full role names
+    admin:
+        - admin
+        - Admin
+        - '123456789012345678'
+    # Guild roles to treat as mods
+    # Can be role ID's or full role names
+    mod:
+        - mod
+    # Guild roles to treat as players
+    # OPTIONAL - leave blank to disable
+    # Can be role ID's or full role names
+    player:

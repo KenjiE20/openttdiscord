@@ -44,7 +44,7 @@ discordClient.botShutdown = function() {
             channelOpenttd.disconnect();
         }
     });
-    
+
     // Wait until connection counter clears to disconect discord and end
     const shutdownTimer = setInterval(() => {
         if (!discordClient.openttdConnected.count) {
@@ -74,15 +74,27 @@ const cooldowns = new Discord.Collection();
 // Discord client is connected and ready
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
+    setInterval(() => {
+        const newActivityContent = `${discordClient.guilds.size} Servers!`;
+        discordClient.user
+            .setActivity(newActivityContent, {
+                type: 'WATCHING'
+            })
+            .then(() => {
+                logger.info(`Changed activity to 'Watching ${newActivityContent}'`);
+            })
+            .catch(reason => {
+                logger.error(`Couldn't change bot activity because of the reason: ${reason}`);
+            });
+    }, discordClient.config.statusinterval * 10e2);
     logger.debug(`Active guilds: ${discordClient.guilds.size}`);
     // If we're not in any guilds prompt with invite link
     if (!discordClient.guilds.size) {
-        discordClient.generateInvite()
-            .then(link => {
-                logger.info('Looks like this is the first run of the bot.');
-                logger.info('Please use the following link to add this bot to your server:');
-                logger.info(link);
-            });
+        discordClient.generateInvite().then(link => {
+            logger.info('Looks like this is the first run of the bot.');
+            logger.info('Please use the following link to add this bot to your server:');
+            logger.info(link);
+        });
     }
 
     // Object to help keep track of the number of OpenTTD connections active
@@ -112,7 +124,10 @@ discordClient.once('ready', () => {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
             } else {
                 const config = discordClient.config.channelMapping[channelID];
-                discordClient.channelMap.set(channelID, new OpenTTD.Client(config, discordClient.channels.get(channelID)));
+                discordClient.channelMap.set(
+                    channelID,
+                    new OpenTTD.Client(config, discordClient.channels.get(channelID))
+                );
             }
         }
         // Attempt to connect to each OpenTTD config
@@ -147,7 +162,9 @@ discordClient.on('message', message => {
     logger.debug(`Command Name: ${commandName}, args: ${args}`);
 
     // Check command is in cached command list
-    const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
+    const command =
+        discordClient.commands.get(commandName) ||
+        discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
     if (!command) {
         logger.debug(`Invalid command: ${commandName}`);
         return;
@@ -192,12 +209,12 @@ discordClient.on('message', message => {
     const timestamps = cooldowns.get(command.name);
     // Get cooldown for this command
     const cooldownAmount = (command.cooldown || discordClient.config.cooldown) * 1000;
-    
+
     // If the author has a cooldown
     if (timestamps.has(message.author.id)) {
         // Calculate the cooldown expiry
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-    
+
         // Check for expiry
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
@@ -234,10 +251,9 @@ logger.info(`OpenTTDiscord bot v${BOTVERSION}`);
 logger.info('Connecting to Discord');
 
 // Log in to discord
-discordClient.login(discordClient.config.token)
-    .catch(error => {
-        logger.error(`An error occurred connecting to Discord; ${error}`);
-    });
+discordClient.login(discordClient.config.token).catch(error => {
+    logger.error(`An error occurred connecting to Discord; ${error}`);
+});
 
 // Catch SIGINT and shutdown gracefully
 process.on('SIGINT', () => {
