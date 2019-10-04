@@ -5,6 +5,9 @@ const Discord = require('discord.js');
 const OpenTTD = require('./openttd');
 // Grab version from npm package.json
 const BOTVERSION = require('./package.json').version;
+// Set up logger and make it global for everything to use
+const logger = require('./modules/logger');
+global.logger = logger;
 // Config module
 const config = require('./modules/config');
 // Permissions module
@@ -15,11 +18,8 @@ const discordClient = new Discord.Client();
 
 // Load config into client for ease of access
 discordClient.config = config.load();
-
-// Set up logger and make it global for everything to use
-const logger = require('./modules/logger');
+// Set logging level
 logger.setLevel(discordClient.config.loglevel);
-global.logger = logger;
 
 // Start up logging
 logger.info('Config file loaded');

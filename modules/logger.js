@@ -8,8 +8,8 @@ const levels = {
     'error': 4
 };
 
-// Set logging level
-let LOGGINGLEVEL;
+// Set logging level (initialise as trace for logging pre-config)
+let LOGGINGLEVEL = 'trace';
 exports.setLevel = (configLevel) => {
     LOGGINGLEVEL = configLevel;
 };

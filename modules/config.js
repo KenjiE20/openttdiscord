@@ -20,7 +20,8 @@ exports.load = () => {
 
         return config;
     } catch (e) {
-        console.log(e);
+        global.logger.error(e);
+        process.exit(0);
     }
 };
 
