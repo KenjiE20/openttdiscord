@@ -150,12 +150,14 @@ discordClient.on('message', message => {
     const command = discordClient.commands.get(commandName) || discordClient.commands.find(c => c.alias && c.alias.includes(commandName));
     if (!command) {
         logger.debug(`Invalid command: ${commandName}`);
+        message.react('❌');
         return;
     }
 
     // Check permissions
     if (!perm.hasPerm(message, command.perm)) {
         message.reply('You do not have permissions for this command');
+        message.react('❌');
         return;
     }
 
@@ -166,6 +168,7 @@ discordClient.on('message', message => {
             reply += `\nProper usage: ${discordClient.config.prefix}${commandName} ${command.usage}`;
         }
         message.reply(reply);
+        message.react('❓');
         return;
     }
 
@@ -178,6 +181,7 @@ discordClient.on('message', message => {
     // Check for OpenTTD requirement
     if (command.openttd && !discordClient.channelMap.get(message.channel.id)) {
         message.reply('This command requires an OpenTTD server set up for this channel');
+        message.react('❌');
         return;
     }
 
@@ -202,6 +206,7 @@ discordClient.on('message', message => {
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
             message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing \`${command.name}\``);
+            message.react('❌');
             return;
         }
     }
