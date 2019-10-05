@@ -12,6 +12,7 @@ exports.load = () => {
         if (!config.prefix) config.prefix = '!';
         if (!config.loglevel) config.loglevel = 'info';
         if (!config.cooldown) config.cooldown = 2;
+        if (!config.statusinterval) config.statusinterval = 10;
         // Make sure some values at least exist
         if (!config.roles.ownerID) config.roles.ownerID = [];
         if (!config.roles.admin) config.roles.admin = [];
@@ -26,11 +27,11 @@ exports.load = () => {
 };
 
 // Saves the config back to YAML config file, returns success state
-exports.save = (config) => {
+exports.save = config => {
     return new Promise((resolve, reject) => {
-        fs.writeFile(configFile, yaml.safeDump(config), (error) => {
+        fs.writeFile(configFile, yaml.safeDump(config), error => {
             if (error) {
-                return reject (error);
+                return reject(error);
             } else {
                 resolve('OK');
             }
