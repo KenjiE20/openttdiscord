@@ -68,25 +68,15 @@ commandFiles.forEach(f => {
 });
 logger.info(`Loaded ${discordClient.commands.size} commands`);
 
+// Load setStatus function
+const setStatus = require('./modules/setStatus');
+
 // Collection to hold coldown tracking for commands
 const cooldowns = new Discord.Collection();
 
 // Discord client is connected and ready
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
-    setInterval(() => {
-        const newActivityContent = `${discordClient.guilds.size} Servers!`;
-        discordClient.user
-            .setActivity(newActivityContent, {
-                type: 'WATCHING'
-            })
-            .then(() => {
-                logger.info(`Changed activity to 'Watching ${newActivityContent}'`);
-            })
-            .catch(reason => {
-                logger.error(`Couldn't change bot activity because of the reason: ${reason}`);
-            });
-    }, discordClient.config.statusinterval * 10e2);
     logger.debug(`Active guilds: ${discordClient.guilds.size}`);
     // If we're not in any guilds prompt with invite link
     if (!discordClient.guilds.size) {
@@ -112,6 +102,11 @@ discordClient.once('ready', () => {
             return this.counter;
         }
     };
+
+    // Update bot status to connected OpenTTD server amount
+    setInterval(() => {
+        setStatus(discordClient, 'WATCHING', discordClient.openttdConnected.counter);
+    }, discordClient.config.statusinterval * 10e2);
 
     // Mapping for OpenTTD servers to channels
     discordClient.channelMap = new Discord.Collection();
