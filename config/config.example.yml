@@ -22,7 +22,7 @@ cooldown: 2
 #    # Internal server name, used for logging purposes
 #    name: OpenTTD Server
 #    # OpenTTD Server address
-#    address: zaphod
+#    address: localhost
 #    # OpenTTD Server admin port
 #    port: 3977
 #    # OpenTTD Server admin port password
@@ -31,6 +31,10 @@ cooldown: 2
 #    autoconnect: true
 #    # Public address players use to connect to OpenTTD
 #    public: localhost:3979
+#    # Is this server local to the bot
+#    local: true
+#    # Full path to OpenTTD's save dir
+#    savepath: /path/to/openttd/saves
 channelMapping:
   '123456789012345678':
     name: OpenTTD Server
@@ -39,6 +43,8 @@ channelMapping:
     password: password
     autoconnect: true
     public: localhost:3979
+    local: true
+    savepath:
 
 # Bot user permission roles
 # IDs must be strings

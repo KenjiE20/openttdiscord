@@ -40,6 +40,9 @@ module.exports = {
         mapConfig.password = map.password;
         mapConfig.autoconnect = map.autoconnect;
         mapConfig.public = map.publicAddress;
+        mapConfig.local = map.isLocal;
+        mapConfig.savepath = map.savepath;
+
         global.logger.info(`New OpenTTD server set up for channel: ${message.channel.id}`);
         message.reply('Config set up, remember to save the config file');
         global.logger.trace('channelMapping:', message.client.config.channelMapping);

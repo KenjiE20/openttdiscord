@@ -11,6 +11,9 @@ class Client {
         this.password = config.password || 'password';
         this.autoconnect = config.autoconnect || false;
         this.publicAddress = config.public ||  'N/A';
+        this.isLocal = config.local || false;
+        this.savepath = config.savepath ||  '';
+        
         // Discord channel map
         this.channel = channel || '';
         
