@@ -42,7 +42,7 @@ If you know channel ids, you can manually add these now, alternatively you can u
 
 ### Inviting the bot
 + Run the bot with `node index.js`
-+ On first run (no channels) the bot will output an invite link to the log & console. Follow this link to invite the bot to a server.
++ On first run (no servers) the bot will output an invite link to the log & console. Follow this link to invite the bot to a server.
 
 ### Adding servers / channels
 + Once the bot is added to your server, you can use the `!newserver` command to create a new OpenTTD server mapping. Optionally you can pass a name, ip and port.
