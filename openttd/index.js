@@ -259,6 +259,7 @@ Client.prototype.sendChat = function(message) {
 // Function to clean up
 Client.prototype.disconnect = function() {
     this.connection.close();
+    this.connection = new openttdAdmin.connection();
 };
 
 exports.Client = Client;
