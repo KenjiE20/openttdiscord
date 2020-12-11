@@ -38,7 +38,7 @@ perm.setRoles(discordClient.config.roles);
 discordClient.botShutdown = function() {
     // Attempt to disconnect each OpenTTD config
     logger.info('Disconnecting from OpenTTD servers');
-    discordClient.channelMap.tap(channelOpenttd => {
+    discordClient.channelMap.each(channelOpenttd => {
         if (channelOpenttd.isConnected) {
             logger.debug(`Disconnecting from OpenTTD Server: ${channelOpenttd.name}`);
             channelOpenttd.disconnect();
@@ -116,7 +116,7 @@ discordClient.once('ready', () => {
             }
         }
         // Attempt to connect to each OpenTTD config
-        discordClient.channelMap.tap(channel => {
+        discordClient.channelMap.each(channel => {
             if (channel.autoconnect) {
                 channel.connect();
             }
