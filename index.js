@@ -38,7 +38,7 @@ perm.setRoles(discordClient.config.roles);
 discordClient.botShutdown = function() {
     // Attempt to disconnect each OpenTTD config
     logger.info('Disconnecting from OpenTTD servers');
-    discordClient.channelMap.tap(channelOpenttd => {
+    discordClient.channelMap.each(channelOpenttd => {
         if (channelOpenttd.isConnected) {
             logger.debug(`Disconnecting from OpenTTD Server: ${channelOpenttd.name}`);
             channelOpenttd.disconnect();
@@ -74,9 +74,9 @@ const cooldowns = new Discord.Collection();
 // Discord client is connected and ready
 discordClient.once('ready', () => {
     logger.info(`Connected to Discord as ${discordClient.user.username}`);
-    logger.debug(`Active guilds: ${discordClient.guilds.size}`);
+    logger.debug(`Active guilds: ${discordClient.guilds.cache.size}`);
     // If we're not in any guilds prompt with invite link
-    if (!discordClient.guilds.size) {
+    if (!discordClient.guilds.cache.size) {
         discordClient.generateInvite()
             .then(link => {
                 logger.info('Looks like this is the first run of the bot.');
@@ -108,15 +108,15 @@ discordClient.once('ready', () => {
         logger.trace('channelMapping:', discordClient.config.channelMapping);
         // Load existing configs and copy into handler
         for (const channelID in discordClient.config.channelMapping) {
-            if (!discordClient.channels.has(channelID)) {
+            if (!discordClient.channels.cache.has(channelID)) {
                 logger.warn(`Unable to find Discord channel: ${channelID}`);
             } else {
                 const config = discordClient.config.channelMapping[channelID];
-                discordClient.channelMap.set(channelID, new OpenTTD.Client(config, discordClient.channels.get(channelID)));
+                discordClient.channelMap.set(channelID, new OpenTTD.Client(config, discordClient.channels.cache.get(channelID)));
             }
         }
         // Attempt to connect to each OpenTTD config
-        discordClient.channelMap.tap(channel => {
+        discordClient.channelMap.each(channel => {
             if (channel.autoconnect) {
                 channel.connect();
             }

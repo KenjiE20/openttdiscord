@@ -41,10 +41,10 @@ exports.hasPerm = (message, LEVEL = 'public') => {
     playerRoles.forEach(playerRole => {
         // Use id test when possible
         if (/^\d+$/.test(playerRole)) {
-            if (message.member.roles.has(playerRole)) calcLevel = PERMLEVELS.indexOf('player');
+            if (message.member.roles.cache.has(playerRole)) calcLevel = PERMLEVELS.indexOf('player');
         // Compare sender role names to config name
         } else {
-            if (message.member.roles.some(role => role.name === playerRole)) calcLevel = PERMLEVELS.indexOf('player');
+            if (message.member.roles.cache.some(role => role.name === playerRole)) calcLevel = PERMLEVELS.indexOf('player');
         }
     });
 
@@ -54,10 +54,10 @@ exports.hasPerm = (message, LEVEL = 'public') => {
     modRoles.forEach(modRole => {
         // Use id test when possible
         if (/^\d+$/.test(modRole)) {
-            if (message.member.roles.has(modRole)) calcLevel = PERMLEVELS.indexOf('mod');
+            if (message.member.roles.cache.has(modRole)) calcLevel = PERMLEVELS.indexOf('mod');
         // Compare sender role names to config name
         } else {
-            if (message.member.roles.some(role => role.name === modRole)) calcLevel = PERMLEVELS.indexOf('mod');
+            if (message.member.roles.cache.some(role => role.name === modRole)) calcLevel = PERMLEVELS.indexOf('mod');
         }
     });
 
@@ -67,10 +67,10 @@ exports.hasPerm = (message, LEVEL = 'public') => {
     adminRoles.forEach(adminRole => {
         // Use id test when possible
         if (/^\d+$/.test(adminRole)) {
-            if (message.member.roles.has(adminRole)) calcLevel = PERMLEVELS.indexOf('admin');
+            if (message.member.roles.cache.has(adminRole)) calcLevel = PERMLEVELS.indexOf('admin');
         // Compare sender role names to config name
         } else {
-            if (message.member.roles.some(role => role.name === adminRole)) calcLevel = PERMLEVELS.indexOf('admin');
+            if (message.member.roles.cache.some(role => role.name === adminRole)) calcLevel = PERMLEVELS.indexOf('admin');
         }
     });
 
