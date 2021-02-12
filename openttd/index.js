@@ -39,6 +39,7 @@ class Client {
             } else if (error === 'connectionclose') {
                 channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``);
                 global.logger.info(`OpenTTD connection closed: ${this.name}`);
+                this.connection = new openttdAdmin.connection();
             }
             if (this.isConnected) {
                 this.isConnected = false;
