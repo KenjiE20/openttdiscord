@@ -1,5 +1,6 @@
 // Bring in admin port library
 const openttdAdmin = require('node-openttd-admin');
+const openttdUtils = require('./utils');
 
 // Handler class
 class Client {
@@ -129,10 +130,10 @@ class Client {
             }
         });
         this.connection.on('clienterror', client => {
-            global.logger.trace(`OpenTTD client error: id; ${client.id}, error; ${client.error}`);
+            global.logger.trace(`OpenTTD client error: id; ${client.id}, error; ${client.err} (${openttdUtils.getNetworkErrorCode(client.err)})`);
             // Only handle clienterror when it provides an error and client was fully connected/cached, as this event fires while clients join and leave
-            if (client.error && this.clientInfo[client.id]) {
-                channel.send(`\`${this.clientInfo[client.id].name} got an error; ${client.error}\``);
+            if (client.err && this.clientInfo[client.id]) {
+                channel.send(`\`${this.clientInfo[client.id].name} got an error; ${openttdUtils.getNetworkErrorCode(client.err)}\``);
                 delete this.clientInfo[client.id];
                 global.logger.trace('clienterror: clientinfo is now;', this.clientInfo);
             }

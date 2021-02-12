@@ -27,8 +27,14 @@ const getLandscapeName = function(landscape) {
     }
 };
 
+// Return readable string version of NetworkErrorCodes
+const getNetworkErrorCode = function(code) {
+    return enums.NetworkErrorCode[code];
+};
+
 module.exports = {
     convertOpenttdDate,
     getColourName,
-    getLandscapeName
+    getLandscapeName,
+    getNetworkErrorCode
 };

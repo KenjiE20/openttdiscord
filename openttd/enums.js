@@ -89,10 +89,38 @@ const Landscape = {
     TOYLAND: 0x03
 };
 
+const NetworkErrorCode = {
+    0: 'General Error', // Try to use this one like never
+    
+    /* Signals from clients */
+    1: 'Desync',
+    2: 'Savegame Failed',
+    3: 'Connection Lost',
+    4: 'Illegal Packet',
+    5: 'Newgrf Mismatch',
+
+    /* Signals from servers */
+    6: 'Not Authorized',
+    7: 'Not Expected',
+    8: 'Wrong Revision',
+    9: 'Name In Use',
+    10: 'Wrong Password',
+    11: 'Company Mismatch', // Happens in CLIENT_COMMAND
+    12: 'Kicked',
+    13: 'Cheater',
+    14: 'Full',
+    15: 'Too Many Commands',
+    16: 'Timeout Password',
+    17: 'Timeout Computer',
+    18: 'Timeout Map',
+    19: 'Timeout Join'
+};
+
 module.exports = {
     ColourNames,
     ColourHexes,
     TextColourCodes,
     TextColourHexes,
-    Landscape
+    Landscape,
+    NetworkErrorCode
 };
