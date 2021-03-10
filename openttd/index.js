@@ -256,7 +256,7 @@ Client.prototype.connect = function() {
 // Chat function
 Client.prototype.sendChat = function(message) {
     const name = message.member.nickname || message.author.username; // Prefer nickname over username if set
-    this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${name}> ${message.content}`);
+    this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${name}> ${message.cleanContent}`);
 };
 
 // Function to clean up
