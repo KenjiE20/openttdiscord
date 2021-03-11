@@ -3,6 +3,7 @@
  */
 const moment = require('moment');
 const enums = require('./enums');
+const emoji = require('node-emoji');
 
 // Convert from OpenTTD date int to moment() object
 const convertOpenttdDate = function(openttdDate) {
@@ -32,9 +33,50 @@ const getNetworkErrorCode = function(code) {
     return enums.NetworkErrorCode[code];
 };
 
+// Convertion map for some common smilies to emojis
+const smilemap = {
+    ':d': ':grin:',
+    ':D': ':grin:',
+    ':)': ':slight_smile:',
+    ';)': ':wink:',
+    '-_-': ':expressionless:',
+    ':|': ':neutral_face:',
+    ':/': ':confused:',
+    ':p': ':stuck_out_tongue:',
+    ':P': ':stuck_out_tongue:',
+    ':\'(': ':cry:',
+    ';\'(': ':sob:',
+    ':(': ':frowning:',
+    '>:(': ':angry:',
+    ':@': ':rage:',
+    ':o': ':open_mouth:',
+    ':O': ':open_mouth:',
+    '<3': ':heart:',
+    '</3': ':broken_heart:'
+};
+
+// Parse OpenTTD line for emojis
+const emojify = function(text) {
+    // node-emoji-fy known unicodes
+    text = emoji.emojify(text);
+
+    // Split string and loop to find and replace common smilies
+    const words = text.split(' ');
+    words.forEach(($word, $index) => {
+        if($word in smilemap) {
+            words[$index] = smilemap[$word];
+        }
+    });
+    text = words.join(' ');
+    
+    return text;
+};
+
 module.exports = {
     convertOpenttdDate,
     getColourName,
     getLandscapeName,
-    getNetworkErrorCode
+    getNetworkErrorCode,
+    emoji,
+    emojify
 };

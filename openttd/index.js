@@ -227,7 +227,15 @@ class Client {
             global.logger.trace('chat;', chat);
             // Only pass broadcast chats
             if (chat.action === openttdAdmin.enums.Actions.CHAT && chat.desttype === openttdAdmin.enums.DestTypes.BROADCAST) {
-                channel.send(`<${this.clientInfo[chat.id].name}> ${chat.message}`);
+                // Convert standard smilies and emojis
+                let msg = openttdUtils.emojify(chat.message);
+
+                // Look for discord custom emoji and convert
+                channel.client.emojis.cache.each(em => {
+                    msg = msg.replace(`:${em.name}:`, `<:${em.identifier}>`);
+                });
+
+                channel.send(`<${this.clientInfo[chat.id].name}> ${msg}`);
             }
             // New company event is better handled here than via admin port event
             if (chat.action === openttdAdmin.enums.Actions.COMPANY_NEW) {
@@ -256,7 +264,16 @@ Client.prototype.connect = function() {
 // Chat function
 Client.prototype.sendChat = function(message) {
     const name = message.member.nickname || message.author.username; // Prefer nickname over username if set
-    this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${name}> ${message.cleanContent}`);
+
+    // Clean up unicode emojis to text
+    let msg = openttdUtils.emoji.unemojify(message.cleanContent);
+
+    // Find any custom discord emoji and convert
+    message.client.emojis.cache.each(em => {
+        msg = msg.replace(`<:${em.identifier}>`, `:${em.name}:`);
+    });
+    
+    this.connection.send_chat(openttdAdmin.enums.Actions.CHAT, openttdAdmin.enums.DestTypes.BROADCAST, 1, `<${name}> ${msg}`);
 };
 
 // Function to clean up
