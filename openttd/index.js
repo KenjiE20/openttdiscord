@@ -29,6 +29,11 @@ class Client {
         this.companyInfo = {};
         this.gameDate = 0;
 
+        // rcon state
+        this.rconQueue = []; // Command queue
+        this.RCONSTATE = 'IDLE'; // Current state
+        this.RCONCMD = ''; // Last used command
+
         // Handle admin port events
         this.connection.on('connect', () => {
             this.connection.authenticate('OpenTTDiscord', this.password);
@@ -253,8 +258,44 @@ class Client {
                 channel.send(`\`${this.clientInfo[chat.id].name} is now spectating\``);
             }
         });
+        
+        // Catch any rconend for queue processing
+        this.connection.on('rconend', rconend => {
+            global.logger.trace('Got rconend:', rconend);
+            // Sanity check rencend is the last used command
+            if (rconend.command === this.RCONCMD) {
+                // Reset state and try for queued command
+                this.RCONCMD = '';
+                this.RCONSTATE = 'IDLE';
+                this.tryRcon();
+            }
+        });
+
+        // Process queue
+        this.tryRcon = function() {
+            // Only action if rcon is idle
+            global.logger.trace('rcon state:', this.RCONSTATE);
+            if (this.RCONSTATE === 'IDLE') {
+                // Do we have queued commands
+                global.logger.trace('rcon Queue:', this.rconQueue);
+                if (this.rconQueue.length) {
+                    // Set state and send the first command in queue
+                    this.RCONSTATE = 'ACTIVE';
+                    this.RCONCMD = this.rconQueue.shift();
+                    global.logger.trace('sending rcon:', this.RCONCMD);
+                    this.connection.send_rcon(this.RCONCMD);
+                }
+            }
+        };
     }
 }
+
+// Add rcon to queue and trigger process
+Client.prototype.sendRcon = function(rconcmd) {
+    global.logger.trace('adding rcon:', rconcmd);
+    this.rconQueue.push(rconcmd);
+    this.tryRcon();
+};
 
 // Function to connect to OpenTTD
 Client.prototype.connect = function() {
