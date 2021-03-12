@@ -90,7 +90,7 @@ module.exports = {
                 openttd.connection.on('rconend', end);
 
                 // Send rcon
-                openttd.connection.send_rcon(RCONCMD);
+                openttd.sendRcon(RCONCMD);
             };
 
             // Call check then schedule checks every 5 secs
