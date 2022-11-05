@@ -12,7 +12,7 @@ global.logger = logger;
 const config = require('./modules/config');
 // Permissions module
 const perm = require('./modules/permissions');
-const { GatewayIntentBits, PresenceUpdateStatus } = require('discord.js');
+const { GatewayIntentBits } = require('discord.js');
 
 // Init Discord client
 const discordClient = new Discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
