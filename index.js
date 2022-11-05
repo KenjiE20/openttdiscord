@@ -12,10 +12,11 @@ global.logger = logger;
 const config = require('./modules/config');
 // Permissions module
 const perm = require('./modules/permissions');
+const { GatewayIntentBits, PresenceUpdateStatus } = require('discord.js');
 
 // Init Discord client
-const discordClient = new Discord.Client();
-
+const discordClient = new Discord.Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
+ 
 // Load config into client for ease of access
 discordClient.config = config.load();
 // Set logging level
@@ -127,7 +128,7 @@ discordClient.once('ready', () => {
 });
 
 // Got a discord message
-discordClient.on('message', message => {
+discordClient.on("messageCreate", message => {
     // Bot check
     if (message.author.bot) return;
 
@@ -169,12 +170,6 @@ discordClient.on('message', message => {
         }
         message.reply(reply);
         message.react('❓');
-        return;
-    }
-
-    // Check for channel requirements
-    if (command.guildOnly && message.channel.type !== 'text') {
-        message.reply('This command must be run on a channel');
         return;
     }
 
