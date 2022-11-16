@@ -2,7 +2,7 @@ FROM node:19-alpine
 
 WORKDIR /home/openttdiscord
 
-COPY ./openttdiscord ./
+ADD ./ ./
 
 RUN npm install
 
