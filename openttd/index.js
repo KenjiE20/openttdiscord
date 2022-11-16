@@ -22,6 +22,7 @@ class Client {
 
         // Helper properties
         this.isConnected = false;
+        this.IsReconnecting = false
 
         // Info cache
         this.gameInfo;
@@ -39,14 +40,23 @@ class Client {
             this.connection.authenticate('OpenTTDiscord', this.password);
         });
         this.connection.on('error', error => {
+            this.connection = new openttdAdmin.connection()
+
             if (error === 'connectionerror') {
-                channel.send(`\`An Error occurred with OpenTTD Server: ${this.name}\``);
+                if (!this.IsReconnecting) { channel.send(`\`An Error occurred with OpenTTD Server: ${this.name}\``); }
                 global.logger.error(`Error occurred on OpenTTD connection: ${this.name}\n${error}`);
             } else if (error === 'connectionclose') {
-                channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``);
-                global.logger.info(`OpenTTD connection closed: ${this.name}`);
-                this.connection = new openttdAdmin.connection();
+                if (!this.IsReconnecting) { channel.send(`\`Disconnected from OpenTTD Server: ${this.name}\``); }
+                global.logger.info(`OpenTTD connection closed: ${this.name}. Trying to reconnect...`);
+                this.IsReconnecting = true
+
+                setTimeout(() => {
+                    this.connection.connect(this.address, this.port)
+                    },
+                    5000
+                )
             }
+
             if (this.isConnected) {
                 this.isConnected = false;
                 channel.client.openttdConnected.decrement();
@@ -62,8 +72,10 @@ class Client {
             // Only toggle and increment if new connection, not when a new game happens
             if (!this.isConnected) {
                 this.isConnected = true;
+                this.IsReconnecting = false;
                 channel.client.openttdConnected.increment();
             }
+
             global.logger.info(`Connected to OpenTTD Server: ${this.name}`);
             channel.send(`\`Connected to OpenTTD Server: ${this.name}\``);
             // Cache info
@@ -120,6 +132,51 @@ class Client {
             global.logger.trace(`clientjoin: id; ${id}`);
             // Name check in case events happened out of order
             if (this.clientInfo[id].name) {
+                // Welcome msg for in-game player
+                (async () => {
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `——————————————————————————————`
+                    )
+
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `Привет, ${this.clientInfo[id].name}!`
+                    )
+
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `Сервер придерживается правил wiki openttd: https://wiki.openttd.org/en/Community/Play%20Style/Multiplayer%20Rules`
+                    )
+
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `Компании без активности с паролем удаляются через - 20 игровых лет, без пароля - 1 игровой месяц`
+                    )
+
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `Приятной игры!`
+                    )
+
+                    this.connection.send_chat( 
+                        openttdAdmin.enums.Actions.CHAT_CLIENT, 
+                        openttdAdmin.enums.DestTypes.CLIENT, 
+                        id, 
+                        `——————————————————————————————`
+                    )
+                })()
+
                 let join = `${this.clientInfo[id].name} has connected`;
                 if (this.clientInfo[id].company === 255) {
                     join += ' (Spectator)';
